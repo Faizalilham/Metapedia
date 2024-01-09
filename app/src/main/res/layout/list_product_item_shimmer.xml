@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer_view_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp10">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="170dp"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            app:cardCornerRadius="@dimen/dp10"
+            app:cardElevation="@dimen/dp15"
+            android:layout_margin="@dimen/dp10"
+            android:id="@+id/card"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/image_product"
+                    android:layout_width="match_parent"
+                    android:layout_height="170dp"
+                    app:riv_corner_radius="@dimen/dp10"
+                    android:background="@color/gray_shimmer"
+                    android:scaleType="fitXY"/>
+
+                <TextView
+                    android:id="@+id/text_tittle"
+                    style="@style/AppTheme.TextTittle"
+                    android:layout_width="120dp"
+                    android:layout_height="10dp"
+                    android:layout_marginTop="@dimen/dp10"
+                    android:layout_marginStart="@dimen/dp10"
+                    android:layout_marginEnd="@dimen/dp10"
+                    android:background="@drawable/background_shimmer"
+                    android:textColor="@color/black"/>
+
+                <TextView
+                    android:id="@+id/text_price"
+                    style="@style/AppTheme.TextTittle"
+                    android:layout_width="50dp"
+                    android:layout_height="10dp"
+                    android:layout_marginTop="@dimen/dp10"
+                    android:background="@drawable/background_shimmer"
+                    android:layout_marginStart="@dimen/dp10"
+                    android:layout_marginEnd="@dimen/dp10"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_margin="@dimen/dp5">
+
+
+
+                    <TextView
+                        android:id="@+id/text_average"
+                        android:layout_width="50dp"
+                        android:layout_height="10dp"
+                        android:layout_marginStart="@dimen/dp5"
+                        android:layout_marginTop="@dimen/dp10"
+                        android:background="@drawable/background_shimmer"
+                        style="@style/AppTheme.TextMini"/>
+
+
+
+                    <TextView
+                        android:id="@+id/text_sold"
+                        android:layout_width="50dp"
+                        android:layout_height="10dp"
+                        android:layout_marginTop="@dimen/dp10"
+                        android:layout_marginStart="@dimen/dp10"
+                        android:background="@drawable/background_shimmer"
+                        style="@style/AppTheme.TextMini"/>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_margin="@dimen/dp5">
+
+                    <TextView
+                        android:id="@+id/text_until"
+                        android:layout_width="50dp"
+                        android:layout_height="10dp"
+                        android:background="@drawable/background_shimmer"
+                        android:layout_marginStart="@dimen/dp5"
+                        style="@style/AppTheme.TextMini"
+                        android:textColor="@color/grey"/>
+
+                    <ImageView
+                        android:id="@+id/img_favorite"
+                        android:layout_width="30dp"
+                        android:layout_height="10dp"
+                        android:layout_marginStart="@dimen/dp20"
+                        android:background="@drawable/background_shimmer"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/ic_more_horiz"/>
+
+
+
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+</LinearLayout>

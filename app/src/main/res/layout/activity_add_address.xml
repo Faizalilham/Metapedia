@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".presentation.addaddress.screen.AddAddressActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/dp10">
+
+        <ImageView
+            android:id="@+id/img_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_back" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/AppTheme.TextTittle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp10"
+                android:text="@string/text_detail_address"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_register"
+                style="@style/AppTheme.TextDefaultMini"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp10"
+                android:text="@string/text_detail_address_description"
+                android:textColor="@color/semi_black"
+                android:textStyle="bold" />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/grey"/>
+
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:orientation="vertical"
+       android:layout_marginTop="@dimen/dp10"
+       android:padding="@dimen/dp10">
+
+       <com.google.android.material.textfield.TextInputLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:hint="@string/text_recipient_name"
+           app:counterEnabled="true"
+           app:counterMaxLength="50">
+
+           <com.google.android.material.textfield.TextInputEditText
+               android:id="@+id/et_name"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+
+               android:background="@android:color/transparent"/>
+
+       </com.google.android.material.textfield.TextInputLayout>
+
+       <com.google.android.material.textfield.TextInputLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:hint="@string/text_phone_number"
+           app:counterEnabled="true"
+           app:counterMaxLength="15"
+           app:endIconDrawable="@drawable/ic_contact"
+           app:endIconMode="custom"
+           >
+
+           <com.google.android.material.textfield.TextInputEditText
+               android:id="@+id/et_phone_number"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:inputType="number"
+               android:background="@android:color/transparent"/>
+
+       </com.google.android.material.textfield.TextInputLayout>
+
+       <com.google.android.material.textfield.TextInputLayout
+
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:hint="@string/text_country">
+
+           <com.google.android.material.textfield.TextInputEditText
+               android:id="@+id/et_country"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:background="@android:color/transparent"/>
+
+       </com.google.android.material.textfield.TextInputLayout>
+
+       <com.google.android.material.textfield.TextInputLayout
+
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:hint="@string/text_label_address"
+           app:counterEnabled="true"
+           app:counterMaxLength="30">
+
+           <com.google.android.material.textfield.TextInputEditText
+               android:id="@+id/et_address"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:background="@android:color/transparent"/>
+
+       </com.google.android.material.textfield.TextInputLayout>
+
+       <net.cachapa.expandablelayout.ExpandableLayout
+           android:id="@+id/expandable_layout"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           app:el_duration="300"
+           app:el_expanded="false">
+
+           <androidx.recyclerview.widget.RecyclerView
+               android:id="@+id/rv_address"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"/>
+
+       </net.cachapa.expandablelayout.ExpandableLayout>
+
+
+
+       <com.google.android.material.textfield.TextInputLayout
+
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:hint="@string/text_city"
+           app:counterEnabled="true"
+           app:counterMaxLength="20">
+
+           <com.google.android.material.textfield.TextInputEditText
+               android:id="@+id/et_city"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:background="@android:color/transparent"/>
+
+       </com.google.android.material.textfield.TextInputLayout>
+
+       <com.google.android.material.textfield.TextInputLayout
+
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:hint="@string/text_complete_address"
+           app:counterEnabled="true"
+           app:counterMaxLength="200">
+
+           <com.google.android.material.textfield.TextInputEditText
+               android:id="@+id/et_complete_address"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:background="@android:color/transparent"/>
+
+       </com.google.android.material.textfield.TextInputLayout>
+
+
+
+       <com.google.android.material.textfield.TextInputLayout
+
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:hint="@string/text_postal_code">
+
+           <com.google.android.material.textfield.TextInputEditText
+               android:id="@+id/et_postal_code"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_marginTop="@dimen/dp10"
+               android:inputType="number"
+               android:background="@android:color/transparent"/>
+
+       </com.google.android.material.textfield.TextInputLayout>
+
+       <com.google.android.material.textfield.TextInputLayout
+
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:hint="@string/text_notes_for_curir"
+           app:counterEnabled="true"
+           android:layout_marginTop="@dimen/dp10"
+           app:helperText="@string/text_helper_text_address_notes"
+           app:counterMaxLength="30">
+
+           <com.google.android.material.textfield.TextInputEditText
+               android:id="@+id/et_notes"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:background="@android:color/transparent"/>
+
+       </com.google.android.material.textfield.TextInputLayout>
+
+       <CheckBox
+           android:id="@+id/cb_product"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_marginTop="@dimen/dp10"
+           android:text="@string/text_first_address"
+           android:buttonTint="@color/primary_color"/>
+
+       <com.google.android.material.button.MaterialButton
+           android:id="@+id/btn_save"
+           style="@style/AppTheme.TextDefault"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_marginTop="@dimen/dp10"
+           android:layout_marginBottom="@dimen/dp10"
+           android:padding="@dimen/dp10"
+           android:text="@string/text_save"
+           android:textAllCaps="false"
+           android:textColor="@color/white"
+           android:textStyle="bold"
+           app:cornerRadius="@dimen/dp10" />
+
+   </LinearLayout>
+
+</LinearLayout>

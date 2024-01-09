@@ -15,8 +15,13 @@ import androidx.fragment.app.FragmentTransaction
 
 import java.util.ArrayList
 import coding.faizal.ecommerce.R
+import coding.faizal.ecommerce.presentation.favorite.screen.FavoriteFragment
+import coding.faizal.ecommerce.presentation.profile.screen.ProfileFragment
+import coding.faizal.ecommerce.presentation.transaction.screen.TransactionFragment
 import com.wwdablu.soumya.lottiebottomnav.*
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HomeActivity : AppCompatActivity(), ILottieBottomNavCallback {
     private var transaction: FragmentTransaction? = null
     private lateinit var bottomNav: LottieBottomNav
@@ -49,15 +54,15 @@ class HomeActivity : AppCompatActivity(), ILottieBottomNavCallback {
 
         // Menu Gifts
         val item2 = MenuItemBuilder.createFrom(item1, fontItem)
-            .selectedLottieName("home.json")
-            .unSelectedLottieName("home.json")
-            .loop(true)
+            .selectedLottieName("favorite.json")
+            .unSelectedLottieName("favorite.json")
+            .pausedProgress(0.75f)
             .build()
 
         // Menu Mail
         val item3 = MenuItemBuilder.createFrom(item1, fontItem)
-            .selectedLottieName("home.json")
-            .unSelectedLottieName("home.json")
+            .selectedLottieName("transaction.json")
+            .unSelectedLottieName("transaction.json")
             .pausedProgress(0.75f)
             .build()
 
@@ -75,18 +80,24 @@ class HomeActivity : AppCompatActivity(), ILottieBottomNavCallback {
 
         bottomNav.setCallback(this)
         bottomNav.setMenuItemList(list)
-        bottomNav.setSelectedIndex(0) // first selected index
+        bottomNav.selectedIndex = 0 // first selected index
 
         // First selected fragment
-        setFragment(HomeFragment())
+        if(intent.getStringExtra(FAVORITE) == FAVORITE){
+            setFragment(FavoriteFragment())
+        }else if(intent.getStringExtra(TRANSACTION) == TRANSACTION){
+            setFragment(TransactionFragment())
+        }else{
+            setFragment(HomeFragment())
+        }
     }
 
     override fun onMenuSelected(oldIndex: Int, newIndex: Int, menuItem: MenuItem) {
         when (newIndex) {
             0 -> setFragment(HomeFragment())
-            1 -> setFragment(HomeFragment())
-            2 -> setFragment(HomeFragment())
-            3 -> setFragment(HomeFragment())
+            1 -> setFragment(FavoriteFragment())
+            2 -> setFragment(TransactionFragment())
+            3 -> setFragment(ProfileFragment())
         }
     }
 
@@ -112,5 +123,11 @@ class HomeActivity : AppCompatActivity(), ILottieBottomNavCallback {
     }
 
     override fun onAnimationCancel(index: Int, menuItem: MenuItem) {
+    }
+
+    companion object{
+        const val HOME = "home"
+        const val FAVORITE = "favorite"
+        const val TRANSACTION = "transaction"
     }
 }

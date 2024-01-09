@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context=".presentation.transaction.screen.TransactionFragment">
+
+    <LinearLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dp10"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/img_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_back" />
+
+        <TextView
+            style="@style/AppTheme.TextTittle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp10"
+            android:layout_marginEnd="@dimen/dp10"
+            android:layout_weight="1"
+            android:text="@string/text_transaction"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/img_cart"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/ic_cart"
+            android:layout_marginStart="@dimen/dp10"
+            android:layout_marginEnd="@dimen/dp15"
+            android:layout_gravity="center_vertical"/>
+
+        <ImageView
+            android:id="@+id/img_menu"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/ic_menu"
+            android:layout_gravity="center_vertical"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="@dimen/dp15">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/empty_box"/>
+
+        <TextView
+            style="@style/AppTheme.TextTittle"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:text="@string/text_list_transaction_empty_tittle"
+            android:textAlignment="center"
+            android:layout_marginTop="@dimen/dp10"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+        <TextView
+            style="@style/AppTheme.TextTittle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="@string/text_list_transaction_empty_sub_tittle"
+            android:textColor="@color/semi_black" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_home"
+            style="@style/AppTheme.TextDefault"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp15"
+            android:text="@string/text_start_shop"
+            android:paddingEnd="@dimen/dp30"
+            android:paddingStart="@dimen/dp30"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            app:cornerRadius="@dimen/dp10" />
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

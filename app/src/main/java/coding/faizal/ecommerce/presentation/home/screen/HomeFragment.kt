@@ -9,68 +9,154 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.widget.Toast
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import coding.faizal.ecommerce.R
+import coding.faizal.ecommerce.data.Resource
 import coding.faizal.ecommerce.databinding.FavoriteBottomSheetBinding
 import coding.faizal.ecommerce.databinding.FragmentHomeBinding
+import coding.faizal.ecommerce.domain.model.remote.product.Product
+import coding.faizal.ecommerce.preferences.AuthPreferencesViewModel
+import coding.faizal.ecommerce.presentation.cart.screen.CartActivity
+import coding.faizal.ecommerce.presentation.category.screen.*
 import coding.faizal.ecommerce.presentation.detailproduct.screen.DetailProduct
 import coding.faizal.ecommerce.presentation.home.adapter.CarouselAdapter
 import coding.faizal.ecommerce.presentation.home.adapter.ProductAdapter
 import coding.faizal.ecommerce.presentation.home.adapter.SlideImageAdapter
 import coding.faizal.ecommerce.presentation.home.utils.Utils.setupPageTransformer
+import coding.faizal.ecommerce.presentation.home.viewmodel.ProductViewModel
+import coding.faizal.ecommerce.presentation.menu.screen.MenuActivity
 import coding.faizal.ecommerce.presentation.pralogin.screen.PraLoginActivity
 import coding.faizal.ecommerce.presentation.search.screen.SearchActivity
+import coding.faizal.ecommerce.utils.NavigationUtils.navigateToCart
+import coding.faizal.ecommerce.utils.NavigationUtils.navigateToCategory
+import coding.faizal.ecommerce.utils.NavigationUtils.navigateToMenu
+import coding.faizal.ecommerce.utils.NavigationUtils.navigateToPraLogin
+import coding.faizal.ecommerce.utils.NavigationUtils.navigateToSearch
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType
 import com.smarteist.autoimageslider.SliderAnimations
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 
-
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
 
 
-    private var _binding : FragmentHomeBinding? = null
-    private val binding get() = _binding!!
-
+    private lateinit var binding : FragmentHomeBinding
 
     private lateinit var imageList: ArrayList<Int>
     private lateinit var carouselAdapter : CarouselAdapter
     private lateinit var productAdapter : ProductAdapter
     private lateinit var job: Job
+    private val authPreferencesViewModel by viewModels<AuthPreferencesViewModel>()
+    private val productViewModel by viewModels<ProductViewModel>()
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentHomeBinding.inflate(layoutInflater)
+        binding = FragmentHomeBinding.inflate(layoutInflater)
+        setupVisibility()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupImageSlider()
-        home()
+        navigation()
         init()
         startAutoScroll()
-        setPromo()
-        search()
         animationPromo()
+        category()
+        setupVisibility()
+
+        getAllProduct()
+        seeAll()
+
     }
 
-    private fun search(){
-       binding.etSearch.setOnClickListener {
-           val intent = Intent(activity, SearchActivity::class.java)
-           startActivity(intent)
-           activity?.overridePendingTransition(R.anim.slide_up, R.anim.stay)
-       }
+    private fun setupVisibility(){
+        authPreferencesViewModel.getIsLogin().observe(requireActivity()){
+            if(it != null && it != false){
+                binding.viewNotLogin.visibility = View.GONE
+            }else{
+                binding.viewNotLogin.visibility = View.VISIBLE
+            }
+        }
     }
 
-    private fun home(){
-        binding.btnLogin.setOnClickListener { startActivity(Intent(requireContext(),PraLoginActivity::class.java)) }
+    private fun category(){
+        binding.categoryMan.setOnClickListener {
+            navigateToCategory(requireActivity(), MAN)
+            val bundle = Bundle()
+            bundle.putString("category", MAN)
+
+            val fragmentTujuan = CategoryFragmentShirt()
+            fragmentTujuan.arguments = bundle
+            val fragmentTujuan2 = CategoryFragmentShirtFormal()
+            fragmentTujuan2.arguments = bundle
+            val fragmentTujuan3 = CategoryFragmentPants()
+            fragmentTujuan3.arguments = bundle
+            val fragmentTujuan4 = CategoryFragmentJeans()
+            fragmentTujuan4.arguments = bundle
+            val fragmentTujuan5 = CategoryFragmentJacket()
+            fragmentTujuan5.arguments = bundle
+            val fragmentTujuan6 = CategoryFragmentHoodie()
+            fragmentTujuan6.arguments = bundle
+
+        }
+        binding.categoryWoman.setOnClickListener {
+            navigateToCategory(requireActivity(), WOMAN)
+            val bundle = Bundle()
+            bundle.putString("category", WOMAN)
+
+            val fragmentTujuan = CategoryFragmentShirt()
+            fragmentTujuan.arguments = bundle
+            val fragmentTujuan2 = CategoryFragmentShirtFormal()
+            fragmentTujuan2.arguments = bundle
+            val fragmentTujuan3 = CategoryFragmentPants()
+            fragmentTujuan3.arguments = bundle
+            val fragmentTujuan4 = CategoryFragmentJeans()
+            fragmentTujuan4.arguments = bundle
+            val fragmentTujuan5 = CategoryFragmentJacket()
+            fragmentTujuan5.arguments = bundle
+            val fragmentTujuan6 = CategoryFragmentHoodie()
+            fragmentTujuan6.arguments = bundle
+        }
+        binding.categoryKids.setOnClickListener {
+            navigateToCategory(requireActivity(), KIDS)
+            val bundle = Bundle()
+            bundle.putString("category", KIDS)
+
+            val fragmentTujuan = CategoryFragmentShirt()
+            fragmentTujuan.arguments = bundle
+            val fragmentTujuan2 = CategoryFragmentShirtFormal()
+            fragmentTujuan2.arguments = bundle
+            val fragmentTujuan3 = CategoryFragmentPants()
+            fragmentTujuan3.arguments = bundle
+            val fragmentTujuan4 = CategoryFragmentJeans()
+            fragmentTujuan4.arguments = bundle
+            val fragmentTujuan5 = CategoryFragmentJacket()
+            fragmentTujuan5.arguments = bundle
+            val fragmentTujuan6 = CategoryFragmentHoodie()
+            fragmentTujuan6.arguments = bundle
+        }
+    }
+
+    private fun navigation() {
+        binding.apply {
+            imgCart.setOnClickListener { navigateToCart(requireActivity()) }
+            etSearch.setOnClickListener { navigateToSearch(requireActivity()) }
+            imgMenu.setOnClickListener {  navigateToMenu(requireActivity()) }
+            btnLogin.setOnClickListener { navigateToPraLogin(requireActivity()) }
+        }
     }
 
     private fun startAutoScroll() {
@@ -82,31 +168,94 @@ class HomeFragment : Fragment() {
         }
     }
 
+    private fun getAllProduct(){
+        authPreferencesViewModel.getToken().observe(this){
+            if(it != null){
+                productViewModel.getAllProduct(it)
+            }
+        }
+
+        lifecycleScope.launch {
+            productViewModel.listProductResult.collect{ resource ->
+                when (resource) {
+                    is Resource.Loading -> {
+                        setPromo(listOf())
+                        setRvProduct(listOf())
+                    }
+                    is Resource.Success -> {
+                        val result = resource.data
+                        if(result != null){
+
+                            setPromo(result)
+                            setRvProduct(result)
+                        }
+                    }
+                    is Resource.Error -> {
+
+                        val errorMessage = resource.message
+                        Toast.makeText(requireActivity(), "$errorMessage", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun seeAll(){
+       binding.apply {
+           tvSeeAllProduct.setOnClickListener {  navigateToSearch(requireActivity(),data = HOME_DATA) }
+           tvSeeProduct.setOnClickListener {  navigateToSearch(requireActivity(),data = HOME_DATA) }
+           tvSeePromo.setOnClickListener {  navigateToSearch(requireActivity(),data = HOME_DATA) }
+       }
+    }
+
     override fun onPause() {
         super.onPause()
         job.cancel()
     }
 
-    private fun setPromo(){
-        productAdapter = ProductAdapter(listOf("Data1","Data2","Data3","Data4"),object : ProductAdapter.OnClickProduct{
-            override fun showBottomNav() {
-                bottomSheet()
+
+
+    private fun setPromo(data : List<Product>){
+        val result = data.filter { it.featured }
+        productAdapter = ProductAdapter(result,object : ProductAdapter.OnClickProduct{
+            override fun showBottomNav(data : Product) {
+                bottomSheet(data._id)
             }
 
-            override fun productDetail(){
-                startActivity(Intent(requireActivity(),DetailProduct::class.java))
+            override fun productDetail(data : Product){
+                startActivity(Intent(requireActivity(),DetailProduct::class.java).also{
+                    it.putExtra(HOME_DATA,data._id)
+                })
             }
 
         })
-        binding.rv.apply {
-            adapter = productAdapter
-            layoutManager = LinearLayoutManager(requireActivity(),LinearLayoutManager.HORIZONTAL,false)
-
-        }
 
         binding.rvProduct.apply {
             adapter = productAdapter
             layoutManager = GridLayoutManager(requireActivity(),2)
+        }
+
+
+    }
+
+    private fun setRvProduct(data : List<Product>){
+        productAdapter = ProductAdapter(data,object : ProductAdapter.OnClickProduct{
+            override fun showBottomNav(data : Product) {
+                bottomSheet(data._id)
+            }
+
+            override fun productDetail(data : Product){
+                startActivity(Intent(requireActivity(),DetailProduct::class.java).also{
+                    it.putExtra(HOME_DATA,data._id)
+                })
+            }
+
+        })
+
+        binding.rv.apply {
+            adapter = productAdapter
+            layoutManager = LinearLayoutManager(requireActivity(),LinearLayoutManager.HORIZONTAL,false)
+
         }
     }
 
@@ -154,14 +303,38 @@ class HomeFragment : Fragment() {
     }
 
 
-    private fun bottomSheet(){
+    private fun bottomSheet(id : String){
         val bottomSheet = BottomSheetDialog(requireContext())
         val view = FavoriteBottomSheetBinding.inflate(layoutInflater)
         bottomSheet.apply {
             view.apply {
                 setContentView(root)
                 textFavorite.setOnClickListener {
-                    Toast.makeText(requireContext(), "Goes to favorite page", Toast.LENGTH_SHORT).show()
+                    authPreferencesViewModel.getToken().observe(requireActivity()){
+                        if(it != null){
+                            productViewModel.addWishlist("Bearer $it",id)
+                        }
+                    }
+
+                    lifecycleScope.launch {
+                        productViewModel.addWishlistResult.collect{ resource ->
+                            when (resource) {
+                                is Resource.Loading -> {
+                                    Toast.makeText(requireActivity(), "Loading ...", Toast.LENGTH_SHORT).show()
+                                }
+                                is Resource.Success -> {
+
+                                    Toast.makeText(requireActivity(), "Product successfully added to favorite", Toast.LENGTH_SHORT).show()
+
+                                }
+                                is Resource.Error -> {
+
+                                    val errorMessage = resource.message
+                                    Toast.makeText(requireActivity(), "$errorMessage", Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                        }
+                    }
                 }
                 show()
 
@@ -182,9 +355,13 @@ class HomeFragment : Fragment() {
 
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
+
+
+    companion object{
+        const val  MAN = "Pria"
+        const val  WOMAN = "Wanita"
+        const val  KIDS = "Anak - anak"
+        const val HOME_DATA = "home_data"
     }
 
 

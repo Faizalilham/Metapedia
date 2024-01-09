@@ -1,15 +1,10 @@
-package android.faizal.movieapp.core.di
+package coding.faizal.ecommerce.di
 
-import android.content.Context
-import androidx.room.Room
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import net.sqlcipher.database.SQLiteDatabase
 import net.sqlcipher.database.SupportFactory
-import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)

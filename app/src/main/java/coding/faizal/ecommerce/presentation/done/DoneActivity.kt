@@ -6,6 +6,7 @@ import android.os.Bundle
 import coding.faizal.ecommerce.databinding.ActivityDoneBinding
 import coding.faizal.ecommerce.presentation.home.screen.HomeActivity
 import coding.faizal.ecommerce.presentation.login.screen.LoginActivity
+import coding.faizal.ecommerce.presentation.pralogin.screen.PraLoginActivity
 
 class DoneActivity : AppCompatActivity() {
     private var _binding : ActivityDoneBinding? = null
@@ -18,7 +19,7 @@ class DoneActivity : AppCompatActivity() {
     }
 
     private fun goToHome(){
-        binding.btnDone.setOnClickListener { startActivity(Intent(this,LoginActivity::class.java).also{finish()}) }
+        binding.btnDone.setOnClickListener { startActivity(Intent(this,PraLoginActivity::class.java).also{finish()}) }
         binding.imgBack.setOnClickListener { startActivity(Intent(this,HomeActivity::class.java).also{finish()}) }
     }
 

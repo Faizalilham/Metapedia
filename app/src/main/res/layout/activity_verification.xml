@@ -1,110 +1,161 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".presentation.verification.screen.VerificationActivity">
 
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/dp10"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <ImageView
             android:id="@+id/img_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:layout_margin="@dimen/dp15"
             android:src="@drawable/ic_back"/>
 
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="@dimen/dp15"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/ic_mail"/>
+
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/AppTheme.TextSubTittle"
-            android:layout_weight="1"
+            style="@style/AppTheme.TextTittle"
             android:textStyle="bold"
-            android:singleLine="true"
-            android:ellipsize="end"
+            android:layout_gravity="center_horizontal"
             android:layout_marginStart="@dimen/dp10"
             android:layout_marginEnd="@dimen/dp10"
+            android:layout_marginTop="@dimen/dp10"
             android:textColor="@color/black"
-            android:text="@string/text_appbar"/>
+            android:text="@string/text_code_verification"/>
 
-        <ImageView
-            android:id="@+id/img_more"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:src="@drawable/keypad"
-            />
+        <TextView
+            android:id="@+id/tv_info_verification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/AppTheme.TextDefault"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="@dimen/dp10"
+            android:layout_marginEnd="@dimen/dp10"
+            android:layout_marginTop="@dimen/dp10"
+            android:textColor="@color/semi_black"
+            android:textAlignment="center"
+            android:text="@string/text_info_code_verification"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/et_input_otp"
+            android:layout_width="210dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_height="wrap_content"
+            app:hintTextColor="@color/semi_black">
+
+            <EditText
+                android:id="@+id/et_otp"
+                android:layout_width="210dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp15"
+                android:layout_marginEnd="100dp"
+                android:textSize="50dp"
+                android:textColor="@color/black"
+                android:inputType="number"
+                android:textStyle="bold"
+                android:maxLength="6"
+                android:background="@android:color/transparent"
+                android:backgroundTint="@color/primary_color"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
 
+
+
+        <TextView
+            android:id="@+id/tv_resend_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/AppTheme.TextDefault"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="@dimen/dp10"
+            android:layout_marginEnd="@dimen/dp10"
+            android:layout_marginTop="@dimen/dp20"
+            android:textColor="@color/semi_black"/>
 
     </LinearLayout>
 
-    <View
+
+    <RelativeLayout
+        android:id="@+id/loadingPanel"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/grey"/>
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:gravity="center">
 
-    <ImageView
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_marginTop="@dimen/dp10"
-        android:layout_gravity="center_horizontal"
-        android:src="@drawable/ic_mail"/>
+        <LinearLayout
+            android:id="@+id/loadingBg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0.8"
+            android:background="#000000"
+            android:orientation="vertical" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/AppTheme.TextTittle"
-        android:textStyle="bold"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginStart="@dimen/dp10"
-        android:layout_marginEnd="@dimen/dp10"
-        android:textColor="@color/black"
-        android:text="@string/text_code_verification"/>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/tv_info_verification"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/AppTheme.TextDefault"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginStart="@dimen/dp10"
-        android:layout_marginEnd="@dimen/dp10"
-        android:textColor="@color/semi_black"
-        android:text="@string/text_info_code_verification"/>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_loading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:padding="@dimen/dp15"
+                app:cardCornerRadius="@dimen/dp10"
+                app:cardElevation="@dimen/dp10"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/background_rounded"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:padding="@dimen/dp25">
+
+                    <ProgressBar
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:progressBackgroundTint="@color/white"
+                        android:progressTint="@color/primary_color" />
+
+                    <TextView
+                        style="@style/AppTheme.TextDefault"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp10"
+                        android:text="@string/text_wait"
+                        android:textColor="@color/black"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </RelativeLayout>
 
 
-    <EditText
-        android:id="@+id/et_otp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp10"
-        android:layout_marginEnd="100dp"
-        android:textSize="@dimen/sp18"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        android:maxLength="6"
-        android:backgroundTint="@color/primary_color"
-        android:layout_marginStart="100dp"/>
-
-    <TextView
-        android:id="@+id/tv_resend_code"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/AppTheme.TextDefault"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginStart="@dimen/dp10"
-        android:layout_marginEnd="@dimen/dp10"
-        android:layout_marginTop="@dimen/dp20"
-        android:textColor="@color/semi_black"/>
-
-
-
-
-</LinearLayout>
+</FrameLayout>

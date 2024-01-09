@@ -41,7 +41,7 @@ class OnBoardingFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setViewPager()
         closeOnBoarding()
-//        onBoardingViewModel.setBoardingKey(true)
+        onBoardingViewModel.setBoardingKey(true)
         toLogin()
 
     }

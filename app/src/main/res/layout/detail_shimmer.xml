@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/image_product"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        app:riv_corner_radius="@dimen/dp10"
+        android:background="@color/gray_shimmer"
+        android:scaleType="fitXY"/>
+
+    <TextView
+        style="@style/AppTheme.TextTittle"
+        android:layout_width="300dp"
+        android:layout_height="10dp"
+        android:layout_marginTop="@dimen/dp20"
+        android:layout_marginStart="@dimen/dp10"
+        android:layout_marginEnd="@dimen/dp10"
+        android:background="@drawable/background_shimmer"
+        android:textColor="@color/black"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_margin="@dimen/dp20"
+        android:layout_height="wrap_content">
+
+        <View
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginEnd="@dimen/dp10"
+            android:background="@drawable/background_shimmer"/>
+
+        <View
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginEnd="@dimen/dp10"
+            android:background="@drawable/background_shimmer"/>
+
+        <View
+            android:id="@+id/cb_product"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginEnd="@dimen/dp10"
+            android:background="@drawable/background_shimmer"/>
+    </LinearLayout>
+
+    <TextView
+        style="@style/AppTheme.TextTittle"
+        android:layout_width="220dp"
+        android:layout_height="10dp"
+        android:layout_marginTop="@dimen/dp10"
+        android:layout_marginStart="@dimen/dp10"
+        android:layout_marginEnd="@dimen/dp10"
+        android:background="@drawable/background_shimmer"
+        android:textColor="@color/black"/>
+
+    <TextView
+        style="@style/AppTheme.TextTittle"
+        android:layout_width="120dp"
+        android:layout_height="10dp"
+        android:layout_marginTop="@dimen/dp20"
+        android:layout_marginStart="@dimen/dp10"
+        android:layout_marginEnd="@dimen/dp10"
+        android:background="@drawable/background_shimmer"
+        android:textColor="@color/black"/>
+
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:orientation="horizontal"
+       android:layout_marginTop="@dimen/dp10"
+       android:layout_height="wrap_content">
+
+       <TextView
+           style="@style/AppTheme.TextTittle"
+           android:layout_width="80dp"
+           android:layout_height="10dp"
+           android:layout_marginTop="@dimen/dp10"
+           android:layout_marginStart="@dimen/dp10"
+           android:layout_marginEnd="@dimen/dp10"
+           android:background="@drawable/background_shimmer"
+           android:textColor="@color/black"/>
+
+       <TextView
+           style="@style/AppTheme.TextTittle"
+           android:layout_width="80dp"
+           android:layout_height="10dp"
+           android:layout_marginTop="@dimen/dp10"
+           android:layout_marginStart="@dimen/dp10"
+           android:layout_marginEnd="@dimen/dp10"
+           android:background="@drawable/background_shimmer"
+           android:textColor="@color/black"/>
+   </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/dp10"
+        android:layout_height="wrap_content">
+
+        <TextView
+            style="@style/AppTheme.TextTittle"
+            android:layout_width="120dp"
+            android:layout_height="10dp"
+            android:layout_marginTop="@dimen/dp10"
+            android:layout_marginStart="@dimen/dp10"
+            android:layout_marginEnd="@dimen/dp10"
+            android:background="@drawable/background_shimmer"
+            android:textColor="@color/black"/>
+
+        <TextView
+            style="@style/AppTheme.TextTittle"
+            android:layout_width="120dp"
+            android:layout_height="10dp"
+            android:layout_marginTop="@dimen/dp10"
+            android:layout_marginStart="@dimen/dp10"
+            android:layout_marginEnd="@dimen/dp10"
+            android:background="@drawable/background_shimmer"
+            android:textColor="@color/black"/>
+
+        <TextView
+            style="@style/AppTheme.TextTittle"
+            android:layout_width="120dp"
+            android:layout_height="10dp"
+            android:layout_marginTop="@dimen/dp10"
+            android:layout_marginStart="@dimen/dp10"
+            android:layout_marginEnd="@dimen/dp10"
+            android:background="@drawable/background_shimmer"
+            android:textColor="@color/black"/>
+    </LinearLayout>
+
+    <TextView
+        style="@style/AppTheme.TextTittle"
+        android:layout_width="80dp"
+        android:layout_height="10dp"
+        android:layout_marginTop="@dimen/dp20"
+        android:layout_marginStart="@dimen/dp10"
+        android:layout_marginEnd="@dimen/dp10"
+        android:background="@drawable/background_shimmer"
+        android:textColor="@color/black"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/dp10"
+        android:layout_height="wrap_content">
+
+        <TextView
+            style="@style/AppTheme.TextTittle"
+            android:layout_width="120dp"
+            android:layout_height="10dp"
+            android:layout_marginTop="@dimen/dp10"
+            android:layout_marginStart="@dimen/dp10"
+            android:layout_marginEnd="@dimen/dp10"
+            android:background="@drawable/background_shimmer"
+            android:textColor="@color/black"/>
+
+        <TextView
+            style="@style/AppTheme.TextTittle"
+            android:layout_width="120dp"
+            android:layout_height="10dp"
+            android:layout_marginTop="@dimen/dp10"
+            android:layout_marginStart="@dimen/dp10"
+            android:layout_marginEnd="@dimen/dp10"
+            android:background="@drawable/background_shimmer"
+            android:textColor="@color/black"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/dp10"
+        android:layout_height="wrap_content">
+
+        <TextView
+            style="@style/AppTheme.TextTittle"
+            android:layout_width="120dp"
+            android:layout_height="10dp"
+            android:layout_marginTop="@dimen/dp10"
+            android:layout_marginStart="@dimen/dp10"
+            android:layout_marginEnd="@dimen/dp10"
+            android:background="@drawable/background_shimmer"
+            android:textColor="@color/black"/>
+
+        <TextView
+            style="@style/AppTheme.TextTittle"
+            android:layout_width="120dp"
+            android:layout_height="10dp"
+            android:layout_marginTop="@dimen/dp10"
+            android:layout_marginStart="@dimen/dp10"
+            android:layout_marginEnd="@dimen/dp10"
+            android:background="@drawable/background_shimmer"
+            android:textColor="@color/black"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/dp10"
+        android:layout_height="wrap_content">
+
+        <TextView
+            style="@style/AppTheme.TextTittle"
+            android:layout_width="120dp"
+            android:layout_height="10dp"
+            android:layout_marginTop="@dimen/dp10"
+            android:layout_marginStart="@dimen/dp10"
+            android:layout_marginEnd="@dimen/dp10"
+            android:background="@drawable/background_shimmer"
+            android:textColor="@color/black"/>
+
+        <TextView
+            style="@style/AppTheme.TextTittle"
+            android:layout_width="120dp"
+            android:layout_height="10dp"
+            android:layout_marginTop="@dimen/dp10"
+            android:layout_marginStart="@dimen/dp10"
+            android:layout_marginEnd="@dimen/dp10"
+            android:background="@drawable/background_shimmer"
+            android:textColor="@color/black"/>
+    </LinearLayout>
+
+
+</LinearLayout>

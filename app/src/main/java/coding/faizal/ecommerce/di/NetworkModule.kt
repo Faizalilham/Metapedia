@@ -1,11 +1,12 @@
-package android.faizal.movieapp.core.di
+package coding.faizal.ecommerce.di
 
-import android.annotation.SuppressLint
+import coding.faizal.ecommerce.BuildConfig
+import coding.faizal.ecommerce.data.source.remote.network.auth.ApiAuthService
+import coding.faizal.ecommerce.data.source.remote.network.product.ApiProductService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import okhttp3.CertificatePinner
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -18,10 +19,6 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 class NetworkModule {
 
-    @SuppressLint("all")
-    private val certificatePinner = CertificatePinner.Builder()
-        .add("https://api.themoviedb.org/3/", "sha256/NPIMWkzcNG/MyZsVExrC6tdy5LTZzeeKg2UlnGG55UY=")
-        .build()
 
     @Provides
     @Singleton
@@ -38,7 +35,7 @@ class NetworkModule {
             .addInterceptor(okHttpLoggingInterceptor)
             .connectTimeout(120,TimeUnit.SECONDS)
             .readTimeout(120,TimeUnit.SECONDS)
-            .certificatePinner(certificatePinner)
+            .retryOnConnectionFailure(true)
             .build()
     }
 
@@ -46,15 +43,19 @@ class NetworkModule {
     @Singleton
     fun retrofit(okHttpClient: OkHttpClient):Retrofit{
         return Retrofit.Builder()
-            .baseUrl("https://api.themoviedb.org/3/")
+            .baseUrl("https://sipendo.simagang.my.id/")
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
 
-//    @Provides
-//    @Singleton
-//    fun apiService(retrofit : Retrofit):ApiService{
-//       return  retrofit.create(ApiService::class.java)
-//    }
+    @Provides
+    fun apiService(retrofit : Retrofit):ApiAuthService{
+       return  retrofit.create(ApiAuthService::class.java)
+    }
+
+    @Provides
+    fun apiProductService(retrofit : Retrofit): ApiProductService {
+        return  retrofit.create(ApiProductService::class.java)
+    }
 }

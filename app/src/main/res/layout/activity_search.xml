@@ -9,9 +9,45 @@
     tools:context=".presentation.search.screen.SearchActivity">
 
     <LinearLayout
+        android:id="@+id/linear_maybe_you_like"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        android:padding="@dimen/dp10">
+
+        <ImageView
+            android:id="@+id/img_backs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_back" />
+
+        <TextView
+            style="@style/AppTheme.TextTittle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp10"
+            android:layout_marginEnd="@dimen/dp10"
+            android:layout_weight="1"
+            android:text="@string/text_maybe_you_like"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+
+
+    </LinearLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/grey" />
+
+    <LinearLayout
         android:id="@+id/header"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="wrap_content"
         android:padding="@dimen/dp10"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,6 +55,7 @@
         android:orientation="horizontal">
 
         <ImageView
+            android:id="@+id/img_back"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_back"
@@ -27,14 +64,16 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/et_input_email"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_weight="8"
             android:layout_marginStart="@dimen/dp5"
             android:layout_marginEnd="@dimen/dp5"
             android:hint="@string/text_hint_home_search"
             app:endIconMode="clear_text"
+            app:hintEnabled="false"
+            style="@style/MyDenseOutlined"
+            android:focusable="true"
             app:startIconDrawable="@drawable/ic_search"
             app:helperText="@string/text_suffix_email"
             app:hintAnimationEnabled="true">
@@ -43,7 +82,9 @@
                 android:id="@+id/et_search"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:imeOptions="actionSearch"/>
+                android:hint="@string/text_hint_home_search"
+                android:imeOptions="actionSearch"
+                android:inputType="text"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -65,7 +106,10 @@
         android:padding="@dimen/dp10"
         android:orientation="vertical">
 
+
+
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp10"

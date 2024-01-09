@@ -1,6 +1,6 @@
 package coding.faizal.ecommerce.di.detailproduct
 
-import coding.faizal.ecommerce.data.repository.local.detailproduct.DetailProductRepository
+import coding.faizal.ecommerce.data.source.local.repository.detailproduct.DetailProductRepository
 import coding.faizal.ecommerce.domain.repository.detailproduct.IDetailProductRepository
 import coding.faizal.ecommerce.domain.usecase.detailproduct.DetailProductUseCase
 import coding.faizal.ecommerce.domain.usecase.detailproduct.impl.DetailProductUseCaseImpl

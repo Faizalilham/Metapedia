@@ -34,6 +34,8 @@ class ViewPagerAdapter(private val context: Context, private val images: List<Pr
         return view
     }
 
+
+
     override fun destroyItem(container: ViewGroup, position: Int, obj: Any) {
         container.removeView(obj as View)
     }

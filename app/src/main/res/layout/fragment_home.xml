@@ -10,7 +10,7 @@
     <LinearLayout
         android:id="@+id/header"
         android:layout_width="match_parent"
-        android:layout_height="90dp"
+        android:layout_height="wrap_content"
         android:padding="@dimen/dp10"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,14 +19,14 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/et_input_email"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_weight="8"
             android:hint="@string/text_hint_home_search"
             app:endIconMode="clear_text"
+            app:hintEnabled="false"
+            style="@style/MyDenseOutlined"
             app:startIconDrawable="@drawable/ic_search"
-            app:helperText="@string/text_suffix_email"
             app:hintAnimationEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -34,24 +34,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:imeOptions="actionSearch"
+                android:hint="@string/text_hint_home_search"
                 android:focusable="false"/>
 
         </com.google.android.material.textfield.TextInputLayout>
-
-        <ImageView
-            android:id="@+id/img_notification"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_notification"
-            android:layout_marginStart="@dimen/dp10"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"/>
 
         <ImageView
             android:id="@+id/img_cart"
             android:layout_width="0dp"
             android:layout_height="25dp"
             android:src="@drawable/ic_cart"
+            android:layout_marginStart="@dimen/dp10"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"/>
+
+        <ImageView
+            android:id="@+id/img_menu"
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:src="@drawable/ic_menu"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"/>
 
@@ -80,6 +81,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/dp15"
+                android:visibility="gone"
                 android:orientation="horizontal">
 
 
@@ -166,6 +168,122 @@
 
             </androidx.cardview.widget.CardView>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dp15"
+                android:layout_marginBottom="@dimen/dp5"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    >
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/category_man"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="@dimen/dp10"
+                        android:layout_margin="@dimen/dp15"
+                        app:cardElevation="@dimen/dp10">
+
+                        <ImageView
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:src="@drawable/ic_man"
+                            android:padding="@dimen/dp10"/>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <TextView
+                        style="@style/AppTheme.TextDefault"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/text_man"
+                        android:gravity="end"
+                        android:textColor="@color/black"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/category_woman"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="@dimen/dp10"
+                        android:layout_margin="@dimen/dp15"
+                        app:cardElevation="@dimen/dp10">
+
+                        <ImageView
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:src="@drawable/ic_woman"
+                            android:padding="@dimen/dp10"/>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <TextView
+                        style="@style/AppTheme.TextDefault"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/text_woman"
+                        android:gravity="end"
+                        android:textColor="@color/black" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    >
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/category_kids"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="@dimen/dp10"
+                        android:layout_margin="@dimen/dp15"
+                        app:cardElevation="@dimen/dp10">
+
+                        <ImageView
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:src="@drawable/ic_boy"
+                            android:padding="@dimen/dp10"/>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <TextView
+                        style="@style/AppTheme.TextDefault"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/text_kids"
+                        android:gravity="end"
+                        android:textColor="@color/black" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp5"
+            android:background="@color/semi_grey"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -185,6 +303,7 @@
 
 
             <TextView
+                android:id="@+id/tv_see_promo"
                 style="@style/AppTheme.TextDefault"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -276,17 +395,18 @@
                     style="@style/AppTheme.TextSubTittle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/dp10"
+                    android:layout_marginTop="@dimen/dp10"
                     android:layout_weight="2"
                     android:text="@string/text_cool"
                     android:textColor="@color/black"
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/tv_see_product"
                     style="@style/AppTheme.TextDefault"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/dp10"
+                    android:layout_marginTop="@dimen/dp10"
                     android:layout_weight="1"
                     android:text="@string/text_see_all"
                     android:gravity="end"
@@ -321,6 +441,7 @@
 
 
                 <TextView
+                    android:id="@+id/tv_see_all_product"
                     style="@style/AppTheme.TextDefault"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"

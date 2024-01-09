@@ -1,35 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/card"
-    android:layout_width="100dp"
-    android:layout_height="wrap_content"
+    android:layout_width="50dp"
+    android:layout_height="80dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     app:cardCornerRadius="@dimen/dp10"
-    android:layout_margin="@dimen/dp10">
+    android:layout_margin="@dimen/dp10"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:id="@+id/card">
 
-        <com.makeramen.roundedimageview.RoundedImageView
-            android:id="@+id/img_product"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:riv_corner_radius_top_left="@dimen/dp10"
-            app:riv_corner_radius_top_right="@dimen/dp10"
-            android:scaleType="fitXY"
-            android:src="@drawable/danilla"/>
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="50dip"
+            android:layout_height="50dip"
+            android:layout_marginBottom="5dp"
+            >
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/img_product"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:riv_corner_radius_top_left="@dimen/dp10"
+                app:riv_corner_radius_top_right="@dimen/dp10"
+                android:scaleType="fitXY"
+                android:src="@drawable/danilla"/>
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/img_product_copy"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:riv_corner_radius_top_left="@dimen/dp10"
+                app:riv_corner_radius_top_right="@dimen/dp10"
+                android:scaleType="fitXY"
+                android:src="@drawable/danilla"/>
+
+        </RelativeLayout>
+
+
 
         <TextView
             android:id="@+id/text_color_product"
-            style="@style/AppTheme.TextDefault"
+            style="@style/AppTheme.TextMini"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAlignment="center"
+            android:text="BLACK"
             android:layout_gravity="center"
+            android:layout_marginTop="@dimen/dp5"
             android:textColor="@color/semi_black" />
 
     </LinearLayout>

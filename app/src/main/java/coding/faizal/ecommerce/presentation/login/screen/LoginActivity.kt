@@ -1,33 +1,44 @@
 package coding.faizal.ecommerce.presentation.login.screen
 
-import coding.faizal.ecommerce.presentation.home.screen.HomeActivity
+
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import coding.faizal.ecommerce.R
+import coding.faizal.ecommerce.data.Resource
 import coding.faizal.ecommerce.databinding.ActivityLoginBinding
 import coding.faizal.ecommerce.databinding.BottomSheetAuthBinding
 import coding.faizal.ecommerce.databinding.BottomSheetHelpBinding
-import coding.faizal.ecommerce.presentation.forgetpassword.screen.ForgetPasswordActivity
-import coding.faizal.ecommerce.presentation.help.screen.HelpActivity
+import coding.faizal.ecommerce.extensions.spanText
+import coding.faizal.ecommerce.preferences.AuthPreferencesViewModel
+import coding.faizal.ecommerce.presentation.done.DoneActivity
+import coding.faizal.ecommerce.presentation.home.screen.HomeActivity
 import coding.faizal.ecommerce.presentation.login.viewmodel.LoginViewModel
 import coding.faizal.ecommerce.presentation.pralogin.screen.PraLoginActivity
-import coding.faizal.ecommerce.presentation.register.screen.RegisterActivity
-import coding.faizal.ecommerce.utils.spanText
+import coding.faizal.ecommerce.utils.NavigationUtils.navigateToForgetPassword
+import coding.faizal.ecommerce.utils.NavigationUtils.navigateToHelp
+import coding.faizal.ecommerce.utils.NavigationUtils.navigateToHome
+import coding.faizal.ecommerce.utils.NavigationUtils.navigateToPraRegister
+import coding.faizal.ecommerce.utils.NavigationUtils.navigateToRegister
+import coding.faizal.ecommerce.utils.UiUtil
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
 
     private var _binding : ActivityLoginBinding? = null
     private val binding get() = _binding!!
+    private val authPreferencesViewModel by viewModels<AuthPreferencesViewModel>()
 
     private val loginViewModel by viewModels<LoginViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,8 +46,8 @@ class LoginActivity : AppCompatActivity() {
         _binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.text.spanText(binding.text,resources.getString(R.string.not_have_account),28,34,this){ register() }
-        binding.tvRegister.setOnClickListener { register() }
+        binding.text.spanText(binding.text,resources.getString(R.string.not_have_account),28,34,this){ navigateToPraRegister(this) }
+        binding.tvRegister.setOnClickListener { navigateToPraRegister(this) }
 
 
         bottomSheet()
@@ -52,7 +63,10 @@ class LoginActivity : AppCompatActivity() {
             btnLogin.setOnClickListener {
                 val email = etEmail.text.toString()
                 val password = etPassword.text.toString()
-                Toast.makeText(this@LoginActivity, email, Toast.LENGTH_SHORT).show()
+                if (password.isBlank()) { etPassword.error = "Password tidak boleh kosong" }
+                loginViewModel.doLogin(email,password)
+                UiUtil.hideKeyboard(this@LoginActivity, currentFocus ?: View(this@LoginActivity))
+                loginResult()
             }
         }
     }
@@ -74,6 +88,7 @@ class LoginActivity : AppCompatActivity() {
                 .collect { isValidEmail ->
                     binding.btnLogin.isEnabled = isValidEmail
                 }
+
         }
 
         binding.etEmail.addTextChangedListener(object : TextWatcher {
@@ -86,19 +101,41 @@ class LoginActivity : AppCompatActivity() {
             }
         })
 
-        binding.etInputEmail.setEndIconOnClickListener {
-           finish()
+        binding.etInputEmail.setEndIconOnClickListener { finish() }
+    }
+
+    private fun loginResult(){
+        lifecycleScope.launch {
+            loginViewModel.loginResult.collect{ resource ->
+                withContext(Dispatchers.Main){
+                    when (resource) {
+                        is Resource.Loading -> {
+                            binding.loadingPanel.visibility = View.VISIBLE
+                        }
+                        is Resource.Success -> {
+                            binding.loadingPanel.visibility = View.GONE
+                            Toast.makeText(this@LoginActivity, resource.message, Toast.LENGTH_SHORT).show()
+                            navigateToHome(this@LoginActivity)
+                            authPreferencesViewModel.setIsLogin()
+                            finish()
+                        }
+                        is Resource.Error -> {
+                            binding.loadingPanel.visibility = View.GONE
+                            val errorMessage = resource.message
+                            Toast.makeText(this@LoginActivity, "$errorMessage", Toast.LENGTH_SHORT).show()
+
+                        }
+                    }
+                }
+
+            }
         }
     }
 
 
 
     private fun back(){
-        binding.imgBack.setOnClickListener { startActivity(Intent(this,HomeActivity::class.java).also { finish() }) }
-    }
-
-    private fun register(){
-        startActivity(Intent(this,RegisterActivity::class.java))
+        binding.imgBack.setOnClickListener { navigateToHome(this) }
     }
 
     private fun bottomSheet(){
@@ -125,11 +162,12 @@ class LoginActivity : AppCompatActivity() {
                     setContentView(root)
                     show()
                     textAnotherHelp.spanText(textAnotherHelp,resources.getString(R.string.text_another_help),20,textAnotherHelp.text.toString().length,this@LoginActivity){
-                        startActivity(Intent(this@LoginActivity,HelpActivity::class.java))
+                       navigateToHelp(this@LoginActivity)
                     }
                     imgClose.setOnClickListener { bottomSheet.dismiss() }
                     btnForgetPassword.setOnClickListener {
-                        startActivity(Intent(this@LoginActivity,ForgetPasswordActivity::class.java).also{finish()})
+                        navigateToForgetPassword(this@LoginActivity)
+                        finish()
                     }
 
                 }

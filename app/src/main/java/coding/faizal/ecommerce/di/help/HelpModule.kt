@@ -1,7 +1,7 @@
 package coding.faizal.ecommerce.di.help
 
 
-import coding.faizal.ecommerce.data.repository.local.help.HelpRepository
+import coding.faizal.ecommerce.data.source.local.repository.help.HelpRepository
 import coding.faizal.ecommerce.domain.repository.help.IHelpRepository
 import coding.faizal.ecommerce.domain.usecase.help.HelpUseCase
 import coding.faizal.ecommerce.domain.usecase.help.impl.HelpUseCaseImpl

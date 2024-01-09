@@ -1,58 +1,110 @@
 package coding.faizal.ecommerce.presentation.pralogin.screen
 
-import android.content.Intent
+
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import coding.faizal.ecommerce.R
+import coding.faizal.ecommerce.data.Resource
 import coding.faizal.ecommerce.databinding.ActivityPraLoginBinding
 import coding.faizal.ecommerce.databinding.BottomSheetAuthBinding
 import coding.faizal.ecommerce.databinding.BottomSheetHelpBinding
-import coding.faizal.ecommerce.presentation.forgetpassword.screen.ForgetPasswordActivity
-import coding.faizal.ecommerce.presentation.help.screen.HelpActivity
-import coding.faizal.ecommerce.presentation.home.screen.HomeActivity
-import coding.faizal.ecommerce.presentation.login.screen.LoginActivity
 import coding.faizal.ecommerce.presentation.login.viewmodel.LoginViewModel
-import coding.faizal.ecommerce.presentation.register.screen.RegisterActivity
-import coding.faizal.ecommerce.utils.spanText
+import coding.faizal.ecommerce.extensions.spanText
+import coding.faizal.ecommerce.presentation.pralogin.viewmodel.PraLoginViewModel
+import coding.faizal.ecommerce.presentation.praregister.screen.PraRegisterActivity
+import coding.faizal.ecommerce.utils.Dialog
+import coding.faizal.ecommerce.utils.NavigationUtils
+import coding.faizal.ecommerce.utils.NavigationUtils.navigateToForgetPassword
+import coding.faizal.ecommerce.utils.NavigationUtils.navigateToHelp
+import coding.faizal.ecommerce.utils.NavigationUtils.navigateToHome
+import coding.faizal.ecommerce.utils.NavigationUtils.navigateToLogin
+import coding.faizal.ecommerce.utils.NavigationUtils.navigateToPraRegister
+import coding.faizal.ecommerce.utils.UiUtil
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
+@AndroidEntryPoint
 class PraLoginActivity : AppCompatActivity() {
 
     private var _binding : ActivityPraLoginBinding? = null
     private val binding get() =  _binding!!
 
-    private val loginViewModel by viewModels<LoginViewModel>()
+    private val loginViewModel by viewModels<PraLoginViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityPraLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.text.spanText(binding.text,resources.getString(R.string.not_have_account),28,34,this){ register() }
+        binding.text.spanText(binding.text,resources.getString(R.string.not_have_account),28,34,this){ navigateToPraRegister(this) }
+        binding.tvRegister.setOnClickListener { navigateToPraRegister(this) }
+        val dataIntent = intent.getStringExtra(PraRegisterActivity.DATA_REGISTER)
+
 
         bottomSheet()
         back()
         handleValidation()
         doLogin()
+        dataIntent(dataIntent)
+
+    }
+
+    private fun dataIntent(dataIntent : String?){
+        if(dataIntent != null){
+            binding.etEmail.setText(dataIntent)
+            binding.btnLogin.isEnabled = true
+        }
     }
 
     private fun doLogin(){
         binding.apply {
             btnLogin.setOnClickListener {
                 val email = etEmail.text.toString()
-                startActivity(Intent(this@PraLoginActivity, LoginActivity::class.java).also{
-                    it.putExtra(EXTRA_EMAIL,email)
-                })
-
+                loginViewModel.praLogin(email)
+                UiUtil.hideKeyboard(this@PraLoginActivity, currentFocus ?: View(this@PraLoginActivity))
+                praLoginResult()
             }
         }
     }
+
+    private fun praLoginResult(){
+        lifecycleScope.launch {
+            loginViewModel.praLoginResult.collect{ resource ->
+                withContext(Dispatchers.Main) {
+                    when (resource) {
+                        is Resource.Loading -> {
+                            binding.loadingPanel.visibility = View.VISIBLE
+                        }
+                        is Resource.Success -> {
+                            binding.loadingPanel.visibility = View.GONE
+                            navigateToLogin(this@PraLoginActivity,binding.etEmail.text.toString())
+                        }
+                        is Resource.Error -> {
+                            binding.loadingPanel.visibility = View.GONE
+                            val errorMessage = resource.message
+                            binding.apply {
+                                Dialog.showDialogLogin(this@PraLoginActivity,"Email belum terdaftar","Lanjut daftar dengan email ini","Ya, Daftar",binding.etEmail.text.toString()){
+                                    navigateToPraRegister(this@PraLoginActivity, binding.etEmail.text.toString())
+                                    finish()
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 
     private fun handleValidation(){
         lifecycleScope.launch {
@@ -74,12 +126,12 @@ class PraLoginActivity : AppCompatActivity() {
     }
 
     private fun back(){
-        binding.imgBack.setOnClickListener { startActivity(Intent(this, HomeActivity::class.java).also { finish() }) }
+        binding.imgBack.setOnClickListener {
+            navigateToHome(this)
+            finish()
+        }
     }
 
-    private fun register(){
-        startActivity(Intent(this, RegisterActivity::class.java))
-    }
 
     private fun bottomSheet(){
         val bottomSheet = BottomSheetDialog(this)
@@ -105,11 +157,11 @@ class PraLoginActivity : AppCompatActivity() {
                     setContentView(root)
                     show()
                     textAnotherHelp.spanText(textAnotherHelp,resources.getString(R.string.text_another_help),20,textAnotherHelp.text.toString().length,this@PraLoginActivity){
-                        startActivity(Intent(this@PraLoginActivity, HelpActivity::class.java))
+                        navigateToHelp(this@PraLoginActivity)
                     }
                     imgClose.setOnClickListener { bottomSheet.dismiss() }
                     btnForgetPassword.setOnClickListener {
-                        startActivity(Intent(this@PraLoginActivity,ForgetPasswordActivity::class.java).also{finish()})
+                       navigateToForgetPassword(this@PraLoginActivity)
                     }
 
                 }
@@ -117,13 +169,13 @@ class PraLoginActivity : AppCompatActivity() {
         }
     }
 
-    companion object{
-        val EXTRA_EMAIL = "email"
-    }
-
 
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    companion object {
+        const val EXTRA_EMAIL = "email"
     }
 }

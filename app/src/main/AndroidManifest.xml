@@ -26,7 +26,44 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Ecommerce"
+        tools:replace="android:theme,android:allowBackup"
         tools:targetApi="31">
+        <activity
+            android:name=".presentation.baseedit.screen.BaseEditActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.praregister.screen.PraRegisterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.profile.screen.ProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.history.screen.HistorySearchActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.addaddress.screen.AddAddressActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.address.screen.AddressActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.editprofile.screen.EditProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.checkout.screen.CheckoutActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.transaction.screen.TransactionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.cart.screen.CartActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.menu.screen.MenuActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.category.screen.CategoryActivity"
+            android:exported="false" />
         <activity
             android:name=".presentation.detailproduct.screen.DetailProduct"
             android:exported="false" />

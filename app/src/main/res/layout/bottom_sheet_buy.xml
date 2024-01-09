@@ -56,42 +56,17 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-               <LinearLayout
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:orientation="horizontal">
-
-                   <TextView
-                       android:id="@+id/tv_color"
-                       style="@style/AppTheme.TextSubTittle"
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:layout_marginStart="@dimen/dp10"
-                       android:text="@string/text_detail_product"
-                       android:padding="@dimen/dp10"
-                       android:background="@drawable/background_rounded"
-                       android:backgroundTint="@color/semi_grey"
-                       android:textColor="@color/greys"
-                       android:textSize="11sp"
-                       android:layout_gravity="center_vertical"
-                       android:textStyle="bold" />
-
-                   <TextView
-                       android:id="@+id/tv_size"
-                       style="@style/AppTheme.TextSubTittle"
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:layout_marginStart="@dimen/dp10"
-                       android:text="@string/text_detail_product"
-                       android:padding="@dimen/dp10"
-                       android:background="@drawable/background_rounded"
-                       android:backgroundTint="@color/semi_grey"
-                       android:textColor="@color/greys"
-                       android:textSize="11sp"
-                       android:layout_gravity="center_vertical"
-                       android:textStyle="bold" />
-
-               </LinearLayout>
+                <TextView
+                    android:id="@+id/tv_name"
+                    style="@style/AppTheme.TextDefault"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp10"
+                    android:layout_marginTop="@dimen/dp10"
+                    android:text="@string/text_detail_product"
+                    android:textColor="@color/black"
+                    android:layout_gravity="center_vertical"
+                    android:textStyle="bold" />
 
 
                 <TextView
@@ -140,10 +115,15 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp10"
             android:layout_marginTop="@dimen/dp10"
-            android:text="@string/text_detail_product"
+            android:text="@string/text_size"
             android:textColor="@color/black"
             android:layout_gravity="center_vertical"
             android:textStyle="bold" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_color"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
         <TextView
             style="@style/AppTheme.TextDefault"
@@ -151,10 +131,15 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp10"
             android:layout_marginTop="@dimen/dp10"
-            android:text="@string/text_detail_product"
+            android:text="@string/text_size"
             android:textColor="@color/black"
             android:layout_gravity="center_vertical"
             android:textStyle="bold" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/footer"

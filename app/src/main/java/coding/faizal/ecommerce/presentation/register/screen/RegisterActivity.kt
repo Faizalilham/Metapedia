@@ -3,22 +3,28 @@ package coding.faizal.ecommerce.presentation.register.screen
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
+import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import coding.faizal.ecommerce.R
+import coding.faizal.ecommerce.data.Resource
 import coding.faizal.ecommerce.databinding.ActivityRegisterBinding
-import coding.faizal.ecommerce.presentation.home.screen.HomeActivity
-import coding.faizal.ecommerce.databinding.BottomSheetAuthBinding
-import coding.faizal.ecommerce.presentation.login.screen.LoginActivity
-import coding.faizal.ecommerce.presentation.pralogin.screen.PraLoginActivity
+import coding.faizal.ecommerce.extensions.doubleSpanText
+import coding.faizal.ecommerce.preferences.AuthPreferencesViewModel
+import coding.faizal.ecommerce.presentation.done.DoneActivity
+import coding.faizal.ecommerce.presentation.praregister.screen.PraRegisterActivity
 import coding.faizal.ecommerce.presentation.register.viewmodel.RegisterViewModel
-import coding.faizal.ecommerce.utils.doubleSpanText
-import com.google.android.material.bottomsheet.BottomSheetDialog
+import coding.faizal.ecommerce.presentation.verification.screen.VerificationActivity
+import coding.faizal.ecommerce.utils.NavigationUtils.navigateToDone
+import coding.faizal.ecommerce.utils.NavigationUtils.navigateToHome
+import coding.faizal.ecommerce.utils.ReusableTextWatcher
+import coding.faizal.ecommerce.utils.UiUtil
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 @AndroidEntryPoint
@@ -26,80 +32,106 @@ class RegisterActivity : AppCompatActivity() {
     private var _binding : ActivityRegisterBinding? = null
     private val binding get () = _binding!!
 
-
     private val registerViewModel by viewModels<RegisterViewModel>()
+    private val authPreferences by viewModels<AuthPreferencesViewModel>()
+
+    private var dataIntent : String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.text.doubleSpanText(binding.text,resources.getString(R.string.text_sub_register),39,59,66,84,this,{
+        dataIntent = intent.getStringExtra(RegisterActivity.DATA_REGISTER)
+        binding.text.doubleSpanText(binding.text,resources.getString(R.string.text_sub_register),41,59,66,84,this,{
             Toast.makeText(this, "Syarat", Toast.LENGTH_SHORT).show()
         }){
             Toast.makeText(this, "Privasi", Toast.LENGTH_SHORT).show()
         }
 
-        back()
-        bottomSheet()
+        if(dataIntent != null){
+            binding.etEmail.setText(dataIntent)
+        }
+
         handleValidation()
-        login()
+        back()
+        doRegister()
+
+
     }
 
     private fun doRegister(){
         binding.apply {
             btnRegister.setOnClickListener {
                 val email = etEmail.text.toString()
-//                registerViewModel.register(email)
+                val name = etFullname.text.toString()
+                val password = etNewPassword.text.toString()
+                authPreferences.getToken().observe(this@RegisterActivity){
+                    if(it != null){
+                        registerViewModel.postEmailRegister(it,email,name,password)
+                    }
+                }
+                UiUtil.hideKeyboard(this@RegisterActivity, currentFocus ?: View(this@RegisterActivity))
+                registerResult()
             }
         }
     }
 
     private fun handleValidation(){
         lifecycleScope.launch {
-            registerViewModel.isEmailValid
-                .collect { isValidEmail ->
-                    binding.btnRegister.isEnabled = isValidEmail
-                }
+            registerViewModel.areFieldsValid.collect { isValid ->
+                binding.btnRegister.isEnabled = isValid
+            }
+
         }
 
-        binding.etEmail.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+        binding.etFullname.addTextChangedListener(ReusableTextWatcher(binding.etFullname) {
+            registerViewModel.updateFullNameInput(it)
+        })
 
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-
-            override fun afterTextChanged(s: Editable?) {
-                registerViewModel.updateEmailInput(s.toString())
-            }
+        binding.etNewPassword.addTextChangedListener(ReusableTextWatcher(binding.etNewPassword) {
+            registerViewModel.updatePasswordInput(it)
         })
     }
 
-    private fun back(){
-        binding.imgBack.setOnClickListener { startActivity(Intent(this,HomeActivity::class.java).also { finish() }) }
-    }
+    private fun registerResult(){
+        lifecycleScope.launch {
+            registerViewModel.registerResult.collect{ resource ->
+                withContext(Dispatchers.Main) {
+                    when (resource) {
+                        is Resource.Loading -> {
+                            binding.loadingPanel.visibility = View.VISIBLE
+                        }
+                        is Resource.Success -> {
+                            binding.loadingPanel.visibility = View.GONE
 
-    private fun login(){
-       binding.tvLogin.setOnClickListener {  startActivity(Intent(this, PraLoginActivity::class.java).also{finish()}) }
-    }
+                            Toast.makeText(this@RegisterActivity, resource.message, Toast.LENGTH_SHORT).show()
+                            navigateToHome(this@RegisterActivity)
+                            finish()
+                        }
+                        is Resource.Error -> {
+                            binding.loadingPanel.visibility = View.GONE
+                            val errorMessage = resource.message
 
-    private fun bottomSheet() {
-        val bottomSheet = BottomSheetDialog(this)
-        binding.loginGoogle.setOnClickListener {
+                            Toast.makeText(this@RegisterActivity, "$errorMessage", Toast.LENGTH_SHORT).show()
 
-            val view = BottomSheetAuthBinding.inflate(layoutInflater)
-            bottomSheet.apply {
-                view.apply {
-                    setContentView(root)
-                    show()
-                    imgClose.setOnClickListener { bottomSheet.dismiss() }
-                    loginGoogle.setOnClickListener {
-                        Toast.makeText(this@RegisterActivity, "Login With Google", Toast.LENGTH_SHORT)
-                            .show()
+                        }
                     }
-
                 }
             }
         }
+
+    }
+
+    private fun back(){
+        binding.imgBack.setOnClickListener {
+            navigateToHome(this)
+            finish()
+        }
+    }
+
+    companion object{
+        const val DATA_REGISTER = "data_register"
     }
 
 
