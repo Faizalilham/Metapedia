@@ -19,8 +19,8 @@ import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getSystemService
 import coding.faizal.ecommerce.R
-import coding.faizal.ecommerce.presentation.help.screen.HelpActivity
-import coding.faizal.ecommerce.presentation.home.screen.HomeActivity
+import coding.faizal.ecommerce.presentation.ui.help.screen.HelpActivity
+import coding.faizal.ecommerce.presentation.ui.home.screen.HomeActivity
 
 
 object UiUtil {

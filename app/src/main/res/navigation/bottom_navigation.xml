@@ -8,13 +8,13 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="coding.faizal.ecommerce.presentation.home.screen.HomeFragment"
+        android:name="coding.faizal.ecommerce.presentation.ui.home.screen.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/profileFragment"
-        android:name="coding.faizal.ecommerce.presentation.profile.screen.ProfileFragment"
+        android:name="coding.faizal.ecommerce.presentation.ui.profile.screen.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
 </navigation>

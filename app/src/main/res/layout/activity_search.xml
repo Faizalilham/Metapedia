@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:id="@+id/root"
     android:orientation="vertical"
-    tools:context=".presentation.search.screen.SearchActivity">
+    tools:context=".presentation.ui.search.screen.SearchActivity">
 
     <LinearLayout
         android:id="@+id/linear_maybe_you_like"

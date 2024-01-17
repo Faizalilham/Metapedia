@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    tools:context=".presentation.favorite.screen.FavoriteFragment">
+    tools:context=".presentation.ui.favorite.screen.FavoriteFragment">
 
     <LinearLayout
         android:id="@+id/header"

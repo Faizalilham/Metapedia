@@ -29,73 +29,73 @@
         tools:replace="android:theme,android:allowBackup"
         tools:targetApi="31">
         <activity
-            android:name=".presentation.baseedit.screen.BaseEditActivity"
+            android:name=".presentation.ui.baseedit.screen.BaseEditActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.praregister.screen.PraRegisterActivity"
+            android:name=".presentation.ui.praregister.screen.PraRegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.profile.screen.ProfileActivity"
+            android:name=".presentation.ui.profile.screen.ProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.history.screen.HistorySearchActivity"
+            android:name=".presentation.ui.history.screen.HistorySearchActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.addaddress.screen.AddAddressActivity"
+            android:name=".presentation.ui.addaddress.screen.AddAddressActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.address.screen.AddressActivity"
+            android:name=".presentation.ui.address.screen.AddressActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.editprofile.screen.EditProfileActivity"
+            android:name=".presentation.ui.editprofile.screen.EditProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.checkout.screen.CheckoutActivity"
+            android:name=".presentation.ui.checkout.screen.CheckoutActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.transaction.screen.TransactionActivity"
+            android:name=".presentation.ui.transaction.screen.TransactionActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.cart.screen.CartActivity"
+            android:name=".presentation.ui.cart.screen.CartActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.menu.screen.MenuActivity"
+            android:name=".presentation.ui.menu.screen.MenuActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.category.screen.CategoryActivity"
+            android:name=".presentation.ui.category.screen.CategoryActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.detailproduct.screen.DetailProduct"
+            android:name=".presentation.ui.detailproduct.screen.DetailProduct"
             android:exported="false" />
         <activity
-            android:name=".presentation.help.screen.HelpActivity"
+            android:name=".presentation.ui.help.screen.HelpActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.search.screen.SearchActivity"
+            android:name=".presentation.ui.search.screen.SearchActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.pralogin.screen.PraLoginActivity"
+            android:name=".presentation.ui.pralogin.screen.PraLoginActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.done.DoneActivity"
+            android:name=".presentation.ui.done.DoneActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.newpassword.screen.NewPasswordActivity"
+            android:name=".presentation.ui.newpassword.screen.NewPasswordActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.verification.screen.VerificationActivity"
+            android:name=".presentation.ui.verification.screen.VerificationActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.forgetpassword.screen.ForgetPasswordActivity"
+            android:name=".presentation.ui.forgetpassword.screen.ForgetPasswordActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.register.screen.RegisterActivity"
+            android:name=".presentation.ui.register.screen.RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.login.screen.LoginActivity"
+            android:name=".presentation.ui.login.screen.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.home.screen.HomeActivity"
+            android:name=".presentation.ui.home.screen.HomeActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

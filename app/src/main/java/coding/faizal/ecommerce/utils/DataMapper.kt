@@ -1,33 +1,42 @@
 package coding.faizal.ecommerce.utils
 
-import coding.faizal.ecommerce.domain.model.remote.product.Payment
-import coding.faizal.ecommerce.data.source.remote.response.forgetPassword.ForgetPasswordResponse
-import coding.faizal.ecommerce.data.source.remote.response.forgetPassword.NewPasswordResponse
-import coding.faizal.ecommerce.data.source.remote.response.forgetPassword.ResetPasswordResponse
-import coding.faizal.ecommerce.data.source.remote.response.login.LoginResponse
-import coding.faizal.ecommerce.data.source.remote.response.product.*
-import coding.faizal.ecommerce.data.source.remote.response.profile.ProfileUserResponse
-import coding.faizal.ecommerce.data.source.remote.response.register.RegisterResponse
-import coding.faizal.ecommerce.data.source.remote.response.register.RegisterResponseAfterVerification
-import coding.faizal.ecommerce.data.source.remote.response.register.ResponseDataUser
-import coding.faizal.ecommerce.data.source.remote.response.verification.VerificationResponse
-import coding.faizal.ecommerce.domain.model.remote.forgetpassword.ForgetPassword
-import coding.faizal.ecommerce.domain.model.remote.forgetpassword.NewPassword
-import coding.faizal.ecommerce.domain.model.remote.forgetpassword.ResetPassword
-import coding.faizal.ecommerce.domain.model.remote.register.Register
-import coding.faizal.ecommerce.domain.model.remote.login.User
-import coding.faizal.ecommerce.domain.model.remote.product.*
-import coding.faizal.ecommerce.domain.model.remote.profileuser.ProfileUser
-import coding.faizal.ecommerce.domain.model.remote.verify.Verification
+import coding.faizal.ecommerce.core.data.source.remote.response.authentication.login.LoginResponse
+import coding.faizal.ecommerce.core.data.source.remote.response.authentication.praregister.RegisterResponse
+import coding.faizal.ecommerce.core.data.source.remote.response.authentication.register.RegisterResponseAfterVerification
+import coding.faizal.ecommerce.core.data.source.remote.response.authentication.register.ResponseDataUser
+import coding.faizal.ecommerce.core.data.source.remote.response.password.createnew.NewPasswordResponse
+import coding.faizal.ecommerce.core.data.source.remote.response.password.forget.ForgetPasswordResponse
+import coding.faizal.ecommerce.core.data.source.remote.response.password.reset.ResetPasswordResponse
+import coding.faizal.ecommerce.core.data.source.remote.response.product.ProductResponse
+import coding.faizal.ecommerce.core.data.source.remote.response.product.payment.PaymentResponse
+import coding.faizal.ecommerce.core.data.source.remote.response.user.profile.ProfileUserResponse
+import coding.faizal.ecommerce.core.data.source.remote.response.verification.VerificationResponse
+import coding.faizal.ecommerce.core.domain.model.remote.authentication.login.User
+import coding.faizal.ecommerce.core.domain.model.remote.authentication.register.Register
+import coding.faizal.ecommerce.core.domain.model.remote.password.ForgetPassword
+import coding.faizal.ecommerce.core.domain.model.remote.password.NewPassword
+import coding.faizal.ecommerce.core.domain.model.remote.password.ResetPassword
+import coding.faizal.ecommerce.core.domain.model.remote.product.*
+import coding.faizal.ecommerce.core.domain.model.remote.profileuser.ProfileUser
+import coding.faizal.ecommerce.core.domain.model.remote.verify.Verification
+import coding.faizal.ecommerce.data.source.remote.response.product.ProductOrderResponse
+import coding.faizal.ecommerce.data.source.remote.response.product.WishlistResponse
+
 
 object DataMapper {
 
     fun mapFromRegisterResponseToEntities(output : RegisterResponse) : Register {
-        return Register(output.email,output.otp)
+        return Register(
+            output.email,
+            output.otp
+        )
     }
 
     fun mapFromVerificationResponseToEntities(output : VerificationResponse) : Verification {
-        return Verification(output.token,output.otpCreatedAt)
+        return Verification(
+            output.token,
+            output.otpCreatedAt
+        )
     }
 
     fun mapFromRegisterResponseToEntities(output : ResponseDataUser<RegisterResponseAfterVerification>) : User {
@@ -78,7 +87,7 @@ object DataMapper {
             output.isAdmin,
             output.addresses,
 
-        )
+            )
     }
 
     fun mapFromProfileUserResponseToEntities(output : ProfileUserResponse) : ProfileUser {
@@ -97,7 +106,16 @@ object DataMapper {
         output.map{ product ->
             product.apply {
                 val products = Product(
-                   images,_id, name, subtitle, description, variants, category, price, featured, imgSrc
+                    images,
+                    _id,
+                    name,
+                    subtitle,
+                    description,
+                    variants,
+                    category,
+                    price,
+                    featured,
+                    imgSrc
                 )
                 list.add(products)
             }

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".presentation.addaddress.screen.AddAddressActivity">
+    tools:context=".presentation.ui.addaddress.screen.AddAddressActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

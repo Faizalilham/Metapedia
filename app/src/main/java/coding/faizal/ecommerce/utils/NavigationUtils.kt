@@ -4,28 +4,28 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Parcelable
 import coding.faizal.ecommerce.R
-import coding.faizal.ecommerce.domain.model.remote.profileuser.ProfileUser
-import coding.faizal.ecommerce.presentation.addaddress.screen.AddAddressActivity
-import coding.faizal.ecommerce.presentation.address.screen.AddressActivity
-import coding.faizal.ecommerce.presentation.baseedit.screen.BaseEditActivity
-import coding.faizal.ecommerce.presentation.cart.screen.CartActivity
-import coding.faizal.ecommerce.presentation.category.screen.CategoryActivity
-import coding.faizal.ecommerce.presentation.done.DoneActivity
-import coding.faizal.ecommerce.presentation.editprofile.screen.EditProfileActivity
-import coding.faizal.ecommerce.presentation.forgetpassword.screen.ForgetPasswordActivity
-import coding.faizal.ecommerce.presentation.help.screen.HelpActivity
-import coding.faizal.ecommerce.presentation.history.screen.HistorySearchActivity
-import coding.faizal.ecommerce.presentation.home.screen.HomeActivity
-import coding.faizal.ecommerce.presentation.home.screen.HomeFragment
-import coding.faizal.ecommerce.presentation.login.screen.LoginActivity
-import coding.faizal.ecommerce.presentation.menu.screen.MenuActivity
-import coding.faizal.ecommerce.presentation.newpassword.screen.NewPasswordActivity
-import coding.faizal.ecommerce.presentation.pralogin.screen.PraLoginActivity
-import coding.faizal.ecommerce.presentation.praregister.screen.PraRegisterActivity
-import coding.faizal.ecommerce.presentation.profile.screen.ProfileActivity
-import coding.faizal.ecommerce.presentation.register.screen.RegisterActivity
-import coding.faizal.ecommerce.presentation.search.screen.SearchActivity
-import coding.faizal.ecommerce.presentation.verification.screen.VerificationActivity
+import coding.faizal.ecommerce.core.domain.model.remote.profileuser.ProfileUser
+import coding.faizal.ecommerce.presentation.ui.addaddress.screen.AddAddressActivity
+import coding.faizal.ecommerce.presentation.ui.address.screen.AddressActivity
+import coding.faizal.ecommerce.presentation.ui.baseedit.screen.BaseEditActivity
+import coding.faizal.ecommerce.presentation.ui.cart.screen.CartActivity
+import coding.faizal.ecommerce.presentation.ui.category.screen.CategoryActivity
+import coding.faizal.ecommerce.presentation.ui.done.DoneActivity
+import coding.faizal.ecommerce.presentation.ui.editprofile.screen.EditProfileActivity
+import coding.faizal.ecommerce.presentation.ui.forgetpassword.screen.ForgetPasswordActivity
+import coding.faizal.ecommerce.presentation.ui.help.screen.HelpActivity
+import coding.faizal.ecommerce.presentation.ui.history.screen.HistorySearchActivity
+import coding.faizal.ecommerce.presentation.ui.home.screen.HomeActivity
+import coding.faizal.ecommerce.presentation.ui.home.screen.HomeFragment
+import coding.faizal.ecommerce.presentation.ui.login.screen.LoginActivity
+import coding.faizal.ecommerce.presentation.ui.menu.screen.MenuActivity
+import coding.faizal.ecommerce.presentation.ui.newpassword.screen.NewPasswordActivity
+import coding.faizal.ecommerce.presentation.ui.pralogin.screen.PraLoginActivity
+import coding.faizal.ecommerce.presentation.ui.praregister.screen.PraRegisterActivity
+import coding.faizal.ecommerce.presentation.ui.profile.screen.ProfileActivity
+import coding.faizal.ecommerce.presentation.ui.register.screen.RegisterActivity
+import coding.faizal.ecommerce.presentation.ui.search.screen.SearchActivity
+import coding.faizal.ecommerce.presentation.ui.verification.screen.VerificationActivity
 
 object NavigationUtils {
     fun navigateToCart(activity: Activity) {
@@ -101,7 +101,7 @@ object NavigationUtils {
         activity.startActivity(intent)
     }
 
-    fun navigateToProfile(activity: Activity, key : String? = MenuActivity.MENU,data : ProfileUser? = null) {
+    fun navigateToProfile(activity: Activity, key : String? = MenuActivity.MENU, data : coding.faizal.ecommerce.core.domain.model.remote.profileuser.ProfileUser? = null) {
         val intent = Intent(activity, ProfileActivity::class.java)
         if(data != null){
             intent.putExtra(key,data)
@@ -149,7 +149,7 @@ object NavigationUtils {
         activity.startActivity(intent)
     }
 
-    fun navigateToBase(activity: Activity,key : String? = ProfileActivity.PROFILE_DATA,data : String? = null) {
+    fun navigateToBase(activity: Activity, key : String? = ProfileActivity.PROFILE_DATA, data : String? = null) {
         val intent = Intent(activity, BaseEditActivity::class.java)
         if(data != null){
             intent.putExtra(key,data)
@@ -157,7 +157,7 @@ object NavigationUtils {
         activity.startActivity(intent)
     }
 
-    fun navigateToEditProfile(activity: Activity,key : String? = ProfileActivity.PROFILE_DATA,data : ProfileUser? = null) {
+    fun navigateToEditProfile(activity: Activity, key : String? = ProfileActivity.PROFILE_DATA, data : coding.faizal.ecommerce.core.domain.model.remote.profileuser.ProfileUser? = null) {
         val intent = Intent(activity, EditProfileActivity::class.java)
         if(data != null){
             intent.putExtra(key,data)

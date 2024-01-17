@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/splashFragment"
-        android:name="coding.faizal.ecommerce.presentation.onboarding.screen.SplashFragment"
+        android:name="coding.faizal.ecommerce.presentation.ui.onboarding.screen.SplashFragment"
         android:label="fragment_splash"
         tools:layout="@layout/fragment_splash" >
         <action
@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/onBoardingFragment"
-        android:name="coding.faizal.ecommerce.presentation.onboarding.screen.OnBoardingFragment"
+        android:name="coding.faizal.ecommerce.presentation.ui.onboarding.screen.OnBoardingFragment"
         android:label="fragment_on_boarding"
         tools:layout="@layout/fragment_on_boarding" />
 </navigation>

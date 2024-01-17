@@ -1,8 +1,10 @@
 package coding.faizal.ecommerce.di
 
-import coding.faizal.ecommerce.BuildConfig
-import coding.faizal.ecommerce.data.source.remote.network.auth.ApiAuthService
-import coding.faizal.ecommerce.data.source.remote.network.product.ApiProductService
+
+import coding.faizal.ecommerce.core.data.source.remote.network.auth.ApiAuthService
+import coding.faizal.ecommerce.core.data.source.remote.network.product.ApiProductService
+import coding.faizal.ecommerce.core.data.source.remote.response.RequestInterceptor
+import coding.faizal.ecommerce.preferences.AuthPreferences
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,17 +27,23 @@ class NetworkModule {
     fun httpLogging():HttpLoggingInterceptor{
         return HttpLoggingInterceptor()
             .setLevel(HttpLoggingInterceptor.Level.BODY)
-
     }
 
     @Provides
+    fun provideRequestInterceptor(prefs: AuthPreferences) : RequestInterceptor {
+        return RequestInterceptor(prefs)
+    }
+
+
+    @Provides
     @Singleton
-    fun okHttpClient(okHttpLoggingInterceptor: HttpLoggingInterceptor):OkHttpClient{
+    fun okHttpClient(okHttpLoggingInterceptor: HttpLoggingInterceptor,requestInterceptor: RequestInterceptor):OkHttpClient{
         return OkHttpClient.Builder()
             .addInterceptor(okHttpLoggingInterceptor)
             .connectTimeout(120,TimeUnit.SECONDS)
             .readTimeout(120,TimeUnit.SECONDS)
             .retryOnConnectionFailure(true)
+            .addInterceptor(requestInterceptor)
             .build()
     }
 
@@ -50,7 +58,7 @@ class NetworkModule {
     }
 
     @Provides
-    fun apiService(retrofit : Retrofit):ApiAuthService{
+    fun apiService(retrofit : Retrofit): ApiAuthService {
        return  retrofit.create(ApiAuthService::class.java)
     }
 
@@ -58,4 +66,6 @@ class NetworkModule {
     fun apiProductService(retrofit : Retrofit): ApiProductService {
         return  retrofit.create(ApiProductService::class.java)
     }
+
+
 }

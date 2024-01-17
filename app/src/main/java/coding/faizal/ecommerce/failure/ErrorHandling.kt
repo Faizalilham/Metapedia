@@ -1,7 +1,7 @@
 package coding.faizal.ecommerce.failure
 
 import android.util.Log
-import coding.faizal.ecommerce.data.Resource
+import coding.faizal.ecommerce.core.data.Resource
 import com.google.gson.JsonParser
 import kotlinx.coroutines.flow.FlowCollector
 import retrofit2.HttpException
@@ -34,7 +34,7 @@ class ErrorHandling<T>(private val flowCollector: FlowCollector<Resource<T>>) {
     }
 
     private suspend fun emitError(errorMessage: String?) {
-        flowCollector.emit(Resource.Error(message = errorMessage))
+        flowCollector.emit(coding.faizal.ecommerce.core.data.Resource.Error(message = errorMessage))
     }
 }
 

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:id="@+id/first"
     android:background="#3d3d3d"
-    tools:context=".presentation.onboarding.screen.FirstFragment">
+    tools:context=".presentation.ui.onboarding.screen.FirstFragment">
 
 
 </FrameLayout>

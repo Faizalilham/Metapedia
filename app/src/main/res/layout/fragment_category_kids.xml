@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.category.screen.CategoryFragmentShirt">
+    tools:context=".presentation.ui.category.screen.CategoryFragmentShirt">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_product"
