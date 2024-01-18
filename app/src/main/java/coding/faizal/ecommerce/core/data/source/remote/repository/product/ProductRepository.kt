@@ -32,9 +32,9 @@ import javax.inject.Singleton
 class ProductRepository @Inject constructor(
     private val apiProductService: ApiProductService
 ) : IProductRepository {
-    override fun getAllSizeProduct(token : String): Flow<List<ProductSize>>  = flow{
+    override fun getAllSizeProduct(): Flow<List<ProductSize>>  = flow{
         try {
-            val response = apiProductService.getAllProduct(token)
+            val response = apiProductService.getAllProduct()
             val listProductSize = response.data.products
                 .flatMap { pr ->
                     pr.variants.mapIndexed { index, pv ->
@@ -51,10 +51,10 @@ class ProductRepository @Inject constructor(
         }
     }.flowOn(Dispatchers.IO)
 
-    override fun getAllProduct(token: String): Flow<Resource<List<Product>>> = flow {
+    override fun getAllProduct(): Flow<Resource<List<Product>>> = flow {
         val errorHandling = ErrorHandling<List<Product>>(this)
         try {
-            val response = apiProductService.getAllProduct(token)
+            val response = apiProductService.getAllProduct()
 
             if (response.code == 200) {
                 val result = response.data
@@ -67,10 +67,10 @@ class ProductRepository @Inject constructor(
         }
     }.flowOn(Dispatchers.IO)
 
-    override fun getProductById(token: String, id: String): Flow<Resource<Product>> = flow {
+    override fun getProductById(id: String): Flow<Resource<Product>> = flow {
         val errorHandling = ErrorHandling<Product>(this)
         try {
-            val response = apiProductService.getProductById(token,id)
+            val response = apiProductService.getProductById(id)
 
             if (response.code == 200) {
                 val result = response.data
@@ -83,10 +83,10 @@ class ProductRepository @Inject constructor(
         }
     }.flowOn(Dispatchers.IO)
 
-    override fun getAllWishlist(token: String): Flow<Resource<ListWishlist>> = flow {
+    override fun getAllWishlist(): Flow<Resource<ListWishlist>> = flow {
         val errorHandling = ErrorHandling<ListWishlist>(this)
         try {
-            val response = apiProductService.getAllWishlist(token)
+            val response = apiProductService.getAllWishlist()
 
             if (response.success) {
                 val result = response.data
@@ -99,10 +99,10 @@ class ProductRepository @Inject constructor(
         }
     }.flowOn(Dispatchers.IO)
 
-    override fun addWishlist(token: String, id: String): Flow<Resource<ListWishlist>> = flow {
+    override fun addWishlist(id: String): Flow<Resource<ListWishlist>> = flow {
         val errorHandling = ErrorHandling<ListWishlist>(this)
         try {
-            val response = apiProductService.addWishlist(token, WishlistRequest(id))
+            val response = apiProductService.addWishlist(WishlistRequest(id))
 
             if (response.success) {
                 val result = response.data
@@ -115,10 +115,10 @@ class ProductRepository @Inject constructor(
         }
     }.flowOn(Dispatchers.IO)
 
-    override fun deleteWishlist(token: String, id: String): Flow<Resource<ListWishlist>> = flow {
+    override fun deleteWishlist(id: String): Flow<Resource<ListWishlist>> = flow {
         val errorHandling = ErrorHandling<ListWishlist>(this)
         try {
-            val response = apiProductService.deleteWishlist(token,id)
+            val response = apiProductService.deleteWishlist(id)
 
             if (response.success) {
                 val result = response.data
@@ -132,7 +132,6 @@ class ProductRepository @Inject constructor(
     }.flowOn(Dispatchers.IO)
 
     override fun orderProduct(
-        token: String,
         product: String,
         variant: String,
         quantity: Int,
@@ -140,7 +139,7 @@ class ProductRepository @Inject constructor(
     ): Flow<Resource<ProductOrder>> = flow {
         val errorHandling = ErrorHandling<ProductOrder>(this)
         try {
-            val response = apiProductService.doOrder(token,
+            val response = apiProductService.doOrder(
                 OrderItemRequestList(listOf(OrderItemRequest(product,variant,quantity,price)))
             )
 
@@ -155,10 +154,10 @@ class ProductRepository @Inject constructor(
         }
     }.flowOn(Dispatchers.IO)
 
-    override fun paymentProduct(token: String, orderId: String): Flow<Resource<Payment>> = flow {
+    override fun paymentProduct(orderId: String): Flow<Resource<Payment>> = flow {
             val errorHandling = ErrorHandling<Payment>(this)
             try {
-                val response = apiProductService.doPayment(token, PaymentRequest(orderId))
+                val response = apiProductService.doPayment(PaymentRequest(orderId))
 
                 if (response.success) {
                     emit(Resource.Success(mapFromProductPaymentResponseToEntities(response),response.status))

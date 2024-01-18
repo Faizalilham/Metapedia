@@ -9,13 +9,12 @@ import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import coding.faizal.ecommerce.core.data.Resource
-import coding.faizal.ecommerce.databinding.ActivityAddAddressBinding
 import coding.faizal.ecommerce.core.domain.model.local.address.LabelAddress
 import coding.faizal.ecommerce.core.domain.model.remote.profileuser.UserAddress
-import coding.faizal.ecommerce.presentation.viewmodel.authentication.AuthPreferencesViewModel
+import coding.faizal.ecommerce.databinding.ActivityAddAddressBinding
 import coding.faizal.ecommerce.core.presentation.ui.addaddress.adapter.AddAddressAdapter
-import coding.faizal.ecommerce.presentation.ui.address.screen.AddressActivity
-import coding.faizal.ecommerce.presentation.viewmodel.user.UserViewModel
+import coding.faizal.ecommerce.core.presentation.ui.address.screen.AddressActivity
+import coding.faizal.ecommerce.core.presentation.viewmodel.user.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -23,10 +22,9 @@ import kotlinx.coroutines.launch
 class AddAddressActivity : AppCompatActivity() {
     private var _binding : ActivityAddAddressBinding? = null
     private val binding get() = _binding!!
-    private lateinit var addressAdapter : coding.faizal.ecommerce.core.presentation.ui.addaddress.adapter.AddAddressAdapter
+    private lateinit var addressAdapter : AddAddressAdapter
 
     private val userViewModel by viewModels<UserViewModel>()
-    private val authPreferencesViewModel by viewModels<AuthPreferencesViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +33,7 @@ class AddAddressActivity : AppCompatActivity() {
         setAddressRecycler()
         userViewModel.getAllLabelAddressData()
         addAddress()
-        val i = intent.getParcelableExtra<coding.faizal.ecommerce.core.domain.model.local.address.LabelAddress>(AddressActivity.ADDRESS_DATA)
+        val i = intent.getParcelableExtra<LabelAddress>(AddressActivity.ADDRESS_DATA)
         if(i != null){
             getDataIntent(i)
         }
@@ -55,7 +53,7 @@ class AddAddressActivity : AppCompatActivity() {
         }
     }
 
-    private fun getDataIntent(i : coding.faizal.ecommerce.core.domain.model.local.address.LabelAddress){
+    private fun getDataIntent(i : LabelAddress){
         binding.apply {
             val split = i.name.split(",")
             etName.setText(split[0])
@@ -85,13 +83,10 @@ class AddAddressActivity : AppCompatActivity() {
     private fun setAddressRecycler(){
        lifecycleScope.launch {
            userViewModel.productSizeData.collect{ data ->
-               addressAdapter =
-                   _root_ide_package_.coding.faizal.ecommerce.core.presentation.ui.addaddress.adapter.AddAddressAdapter(this@AddAddressActivity,
+               addressAdapter = AddAddressAdapter(this@AddAddressActivity,
                        data,
-                       object :
-                           coding.faizal.ecommerce.core.presentation.ui.addaddress.adapter.AddAddressAdapter.AddressOnClick {
-                           override fun labelAddress(
-                               labelAddress: coding.faizal.ecommerce.core.domain.model.local.address.LabelAddress,
+                       object :AddAddressAdapter.AddressOnClick {
+                           override fun labelAddress(labelAddress : LabelAddress,
                                position: Int
                            ) {
                                addressAdapter.setSelected(position)
@@ -122,33 +117,31 @@ class AddAddressActivity : AppCompatActivity() {
                 val postalCode = etPostalCode.text.toString()
 
                 val completeAddress = "$address, $name, $phoneNumber, $fullAddress, $notes"
-                authPreferencesViewModel.getToken().observe(this@AddAddressActivity){
-                    if(it != null){
-                        val addresses = listOf(
-                            coding.faizal.ecommerce.core.domain.model.remote.profileuser.UserAddress(
-                                completeAddress,
-                                city,
-                                country,
-                                postalCode
-                            )
+                if(it != null){
+                    val addresses = listOf(
+                        UserAddress(
+                            completeAddress,
+                            city,
+                            country,
+                            postalCode
                         )
-                        userViewModel.updateAddress("Bearer $it", addresses)
-                    }
+                    )
+                    userViewModel.updateAddress(addresses)
                 }
 
                 lifecycleScope.launch {
                     userViewModel.addAddressResult.collect{ resource ->
                         when(resource){
-                            is coding.faizal.ecommerce.core.data.Resource.Loading -> {
+                            is Resource.Loading -> {
                                 Toast.makeText(this@AddAddressActivity, "Loading ...", Toast.LENGTH_SHORT).show()
                             }
 
-                            is coding.faizal.ecommerce.core.data.Resource.Success -> {
+                            is Resource.Success -> {
                                 Toast.makeText(this@AddAddressActivity, "Successfully add address ...", Toast.LENGTH_SHORT).show()
                                 finish()
                             }
 
-                            is coding.faizal.ecommerce.core.data.Resource.Error -> {
+                            is Resource.Error -> {
                                 Toast.makeText(this@AddAddressActivity, "${resource.message}", Toast.LENGTH_SHORT).show()
                             }
                         }

@@ -1,9 +1,9 @@
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import coding.faizal.ecommerce.core.presentation.ui.cart.utils.Dummy
 import coding.faizal.ecommerce.databinding.ListItemCartBinding
 import coding.faizal.ecommerce.databinding.ListItemCartShimmerBinding
-import coding.faizal.ecommerce.presentation.ui.cart.utils.Dummy
 import de.starkling.shoppingcart.widget.CounterView
 
 class CartListAdapter(private val items: List<Dummy>, private val onItemClick: OnItemCheckListener) :

@@ -11,8 +11,8 @@ import coding.faizal.ecommerce.core.domain.model.local.address.LabelAddress
 
 
 class AddAddressAdapter (private val context : Context,
-                         private val datas : List<coding.faizal.ecommerce.core.domain.model.local.address.LabelAddress>,
-                         private val listener : coding.faizal.ecommerce.core.presentation.ui.addaddress.adapter.AddAddressAdapter.AddressOnClick
+                         private val datas : List<LabelAddress>,
+                         private val listener : AddressOnClick
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
     private val ITEM_ACTUAL = 0
@@ -65,7 +65,7 @@ class AddAddressAdapter (private val context : Context,
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-       if(holder is coding.faizal.ecommerce.core.presentation.ui.addaddress.adapter.AddAddressAdapter.AddressViewHolder){
+       if(holder is AddAddressAdapter.AddressViewHolder){
            holder.binding.apply {
                val data = datas[position]
                textProductSize.text = data.name
@@ -87,7 +87,7 @@ class AddAddressAdapter (private val context : Context,
                    notifyItemChanged(selectedItemPos)
                }
            }
-       }else if(holder is coding.faizal.ecommerce.core.presentation.ui.addaddress.adapter.AddAddressAdapter.AddressShimmerViewHolder){
+       }else if(holder is AddAddressAdapter.AddressShimmerViewHolder){
            holder.showShimmer()
        }
     }
@@ -110,6 +110,6 @@ class AddAddressAdapter (private val context : Context,
     override fun getItemCount(): Int  = if(datas.isEmpty()) 12 else datas.size
 
     interface AddressOnClick{
-        fun labelAddress(labelAddress : coding.faizal.ecommerce.core.domain.model.local.address.LabelAddress, position : Int)
+        fun labelAddress(labelAddress : LabelAddress, position : Int)
     }
 }

@@ -8,13 +8,13 @@ import kotlinx.coroutines.flow.Flow
 
 interface IUserRepository {
 
-    fun getCurrentUser(token : String) : Flow<Resource<ProfileUser>>
+    fun getCurrentUser() : Flow<Resource<ProfileUser>>
 
-    fun updateUsername(token : String,username : String) : Flow<Resource<Any>>
+    fun updateUsername(username : String) : Flow<Resource<Any>>
 
-    fun updateAddress(token : String,address : List<UserAddress>) :  Flow<Resource<Any>>
+    fun updateAddress(address : List<UserAddress>) :  Flow<Resource<Any>>
 
-    fun getListAddress(token : String) : Flow<Resource<List<UserAddress>>>
+    fun getListAddress() : Flow<Resource<List<UserAddress>>>
 
     fun getAllLabelAddress() : List<LabelAddress>
 

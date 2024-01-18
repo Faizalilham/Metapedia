@@ -13,5 +13,5 @@ interface AuthenticationUseCase {
 
     fun praRegister(email : String) : Flow<Resource<Register>>
 
-    fun doRegister(token : String,email : String,name :String, password : String) : Flow<Resource<User>>
+    fun doRegister(email : String,name :String, password : String) : Flow<Resource<User>>
 }

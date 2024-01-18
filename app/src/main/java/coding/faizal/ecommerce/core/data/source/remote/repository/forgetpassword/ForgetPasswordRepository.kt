@@ -62,10 +62,10 @@ class ForgetPasswordRepository  @Inject constructor(
         }
     }.flowOn(Dispatchers.IO)
 
-    override fun resetPassword(token: String, newPassword: String): Flow<Resource<ResetPassword>> = flow {
+    override fun resetPassword(newPassword: String): Flow<Resource<ResetPassword>> = flow {
         val errorHandling = ErrorHandling<ResetPassword>(this)
         try {
-            val response = apiAuthService.resetPassword(token, ResetPasswordRequest(newPassword))
+            val response = apiAuthService.resetPassword(ResetPasswordRequest(newPassword))
 
             if (response.success) {
                 val newPasswordResult = response.data

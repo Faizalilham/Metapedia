@@ -47,7 +47,7 @@ class HomeFragment : Fragment() {
     private lateinit var carouselAdapter : CarouselAdapter
     private lateinit var productAdapter : ProductAdapter
     private lateinit var job: Job
-    private val authPreferencesViewModel by viewModels<AuthPreferencesViewModel>()
+//    private val authPreferencesViewModel by viewModels<AuthPreferencesViewModel>()
     private val productViewModel by viewModels<ProductViewModel>()
 
 
@@ -56,7 +56,7 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentHomeBinding.inflate(layoutInflater)
-        setupVisibility()
+//        setupVisibility()
         return binding.root
     }
 
@@ -68,22 +68,22 @@ class HomeFragment : Fragment() {
         startAutoScroll()
         animationPromo()
         category()
-        setupVisibility()
+
 
         getAllProduct()
         seeAll()
 
     }
 
-    private fun setupVisibility(){
-        authPreferencesViewModel.getIsLogin().observe(requireActivity()){
-            if(it != null && it != false){
-                binding.viewNotLogin.visibility = View.GONE
-            }else{
-                binding.viewNotLogin.visibility = View.VISIBLE
-            }
-        }
-    }
+//    private fun setupVisibility(){
+//        authPreferencesViewModel.getIsLogin().observe(requireActivity()){
+//            if(it != null && it != false){
+//                binding.viewNotLogin.visibility = View.GONE
+//            }else{
+//                binding.viewNotLogin.visibility = View.VISIBLE
+//            }
+//        }
+//    }
 
     private fun category(){
         binding.categoryMan.setOnClickListener {
@@ -162,11 +162,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun getAllProduct(){
-        authPreferencesViewModel.getToken().observe(this){
-            if(it != null){
-                productViewModel.getAllProduct(it)
-            }
-        }
+        productViewModel.getAllProduct()
 
         lifecycleScope.launch {
             productViewModel.listProductResult.collect{ resource ->
@@ -302,11 +298,7 @@ class HomeFragment : Fragment() {
             view.apply {
                 setContentView(root)
                 textFavorite.setOnClickListener {
-                    authPreferencesViewModel.getToken().observe(requireActivity()){
-                        if(it != null){
-                            productViewModel.addWishlist("Bearer $it",id)
-                        }
-                    }
+                    productViewModel.addWishlist(id)
 
                     lifecycleScope.launch {
                         productViewModel.addWishlistResult.collect{ resource ->

@@ -24,7 +24,6 @@ class RegisterActivity : AppCompatActivity() {
     private val binding get () = _binding!!
 
     private val authenticationViewModel by viewModels<AuthenticationViewModel>()
-    private val authPreferences by viewModels<AuthPreferencesViewModel>()
 
     private var dataIntent : String? = null
 
@@ -48,7 +47,6 @@ class RegisterActivity : AppCompatActivity() {
         back()
         doRegister()
 
-
     }
 
     private fun doRegister(){
@@ -57,11 +55,7 @@ class RegisterActivity : AppCompatActivity() {
                 val email = etEmail.text.toString()
                 val name = etFullname.text.toString()
                 val password = etNewPassword.text.toString()
-                authPreferences.getToken().observe(this@RegisterActivity){
-                    if(it != null){
-                        authenticationViewModel.doRegister(it,email,name,password)
-                    }
-                }
+                authenticationViewModel.doRegister(email,name,password)
                 UiUtil.hideKeyboard(this@RegisterActivity, currentFocus ?: View(this@RegisterActivity))
                 registerResult()
             }

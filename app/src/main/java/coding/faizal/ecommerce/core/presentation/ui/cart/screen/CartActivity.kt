@@ -3,19 +3,14 @@ package coding.faizal.ecommerce.core.presentation.ui.cart.screen
 
 import CartListAdapter
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import coding.faizal.ecommerce.R
+import coding.faizal.ecommerce.core.presentation.ui.cart.utils.Dummy
 import coding.faizal.ecommerce.databinding.ActivityCartBinding
-import coding.faizal.ecommerce.presentation.ui.cart.utils.Dummy
 import coding.faizal.ecommerce.utils.NavigationUtils.navigateToHome
 import coding.faizal.ecommerce.utils.NavigationUtils.navigateToMenu
 import de.starkling.shoppingcart.managers.CartManager
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 
 class CartActivity : AppCompatActivity() {

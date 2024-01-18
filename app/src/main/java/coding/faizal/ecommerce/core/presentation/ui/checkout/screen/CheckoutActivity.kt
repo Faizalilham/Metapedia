@@ -23,8 +23,8 @@ import kotlinx.coroutines.launch
 class CheckoutActivity : AppCompatActivity() {
     private var _binding : ActivityCheckoutBinding? = null
     private val binding get() = _binding!!
-
-    private val authPreferencesViewModel by viewModels<AuthPreferencesViewModel>()
+//
+//    private val authPreferencesViewModel by viewModels<AuthPreferencesViewModel>()
     private val productViewModel by viewModels<ProductViewModel>()
 
     private lateinit var checkoutAdapter : CheckoutAdapter
@@ -48,11 +48,7 @@ class CheckoutActivity : AppCompatActivity() {
     }
 
     private fun getProductById(id : String,i : OrderItemRequest){
-        authPreferencesViewModel.getToken().observe(this){
-            if(it != null){
-                productViewModel.getProduct("Bearer $it",id)
-            }
-        }
+        productViewModel.getProduct(id)
 
         lifecycleScope.launch {
             productViewModel.productResult.collect{ resource ->
@@ -98,12 +94,8 @@ class CheckoutActivity : AppCompatActivity() {
     }
 
     private fun doOrder(orderItemRequest: OrderItemRequest){
-        authPreferencesViewModel.getToken().observe(this){
-            if(it != null){
-                orderItemRequest.apply {
-                    productViewModel.doOrder("Bearer $it",product, variant, quantity, price)
-                }
-            }
+        orderItemRequest.apply {
+            productViewModel.doOrder(product, variant, quantity, price)
         }
 
         lifecycleScope.launch {
@@ -131,12 +123,7 @@ class CheckoutActivity : AppCompatActivity() {
     }
 
     private fun doPayment(orderId : String){
-        authPreferencesViewModel.getToken().observe(this){
-            if(it != null){
-                productViewModel.doPayment("Bearer $it",orderId)
-            }
-        }
-
+        productViewModel.doPayment(orderId)
         lifecycleScope.launch {
             productViewModel.productPaymentResult.collect{ resource ->
                 when (resource) {

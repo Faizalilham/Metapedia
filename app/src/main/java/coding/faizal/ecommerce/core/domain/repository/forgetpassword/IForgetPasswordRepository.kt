@@ -12,5 +12,5 @@ interface IForgetPasswordRepository {
 
     fun createNewPassword(otp : String, password : String) : Flow<Resource<NewPassword>>
 
-    fun resetPassword(token : String,newPassword : String) : Flow<Resource<ResetPassword>>
+    fun resetPassword(newPassword : String) : Flow<Resource<ResetPassword>>
 }

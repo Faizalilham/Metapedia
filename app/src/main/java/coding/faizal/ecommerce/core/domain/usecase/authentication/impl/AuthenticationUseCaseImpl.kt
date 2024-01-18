@@ -24,11 +24,10 @@ class AuthenticationUseCaseImpl @Inject constructor(
     }
 
     override fun doRegister(
-        token: String,
         email: String,
         name: String,
         password: String
     ): Flow<Resource<User>> {
-        return IAuthenticationRepository.doRegister(token,email,name,password)
+        return IAuthenticationRepository.doRegister(email,name,password)
     }
 }

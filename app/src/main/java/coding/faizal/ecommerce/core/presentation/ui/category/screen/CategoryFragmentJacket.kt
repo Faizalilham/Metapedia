@@ -14,11 +14,10 @@ import coding.faizal.ecommerce.core.data.Resource
 import coding.faizal.ecommerce.databinding.FavoriteBottomSheetBinding
 import coding.faizal.ecommerce.databinding.FragmentCategoryWomanBinding
 import coding.faizal.ecommerce.core.domain.model.remote.product.Product
-import coding.faizal.ecommerce.presentation.viewmodel.authentication.AuthPreferencesViewModel
-import coding.faizal.ecommerce.presentation.ui.detailproduct.screen.DetailProduct
-import coding.faizal.ecommerce.presentation.ui.home.adapter.ProductAdapter
-import coding.faizal.ecommerce.presentation.ui.home.screen.HomeFragment
-import coding.faizal.ecommerce.presentation.viewmodel.product.ProductViewModel
+import coding.faizal.ecommerce.core.presentation.ui.detailproduct.screen.DetailProduct
+import coding.faizal.ecommerce.core.presentation.ui.home.adapter.ProductAdapter
+import coding.faizal.ecommerce.core.presentation.ui.home.screen.HomeFragment
+import coding.faizal.ecommerce.core.presentation.viewmodel.product.ProductViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -31,7 +30,6 @@ class CategoryFragmentJacket: Fragment() {
     private val binding  get() = _binding!!
 
     private val productViewModel by viewModels<ProductViewModel>()
-    private val authPreferencesViewModel by viewModels<AuthPreferencesViewModel>()
     private lateinit var productAdapter : ProductAdapter
 
     override fun onCreateView(
@@ -49,26 +47,22 @@ class CategoryFragmentJacket: Fragment() {
     }
 
     private fun getAllProduct(i : String){
-        authPreferencesViewModel.getToken().observe(this){
-            if(it != null){
-                productViewModel.getAllProduct("Bearer $it")
-            }
-        }
+        productViewModel.getAllProduct()
 
         lifecycleScope.launch {
             productViewModel.listProductResult.collect{ resource ->
                 when (resource) {
-                    is coding.faizal.ecommerce.core.data.Resource.Loading -> {
+                    is Resource.Loading -> {
                         setRvProduct(listOf())
                     }
-                    is coding.faizal.ecommerce.core.data.Resource.Success -> {
+                    is Resource.Success -> {
                         val result = resource.data
                         if(result != null){
                             val finalResult = result.filter { it.name.contains("jaket",ignoreCase = false) && it.name.contains(i,ignoreCase = false) }
                             setRvProduct(finalResult)
                         }
                     }
-                    is coding.faizal.ecommerce.core.data.Resource.Error -> {
+                    is Resource.Error -> {
 
                         val errorMessage = resource.message
                         Toast.makeText(requireActivity(), "$errorMessage", Toast.LENGTH_SHORT).show()
@@ -79,13 +73,13 @@ class CategoryFragmentJacket: Fragment() {
     }
 
 
-    private fun setRvProduct(data : List<coding.faizal.ecommerce.core.domain.model.remote.product.Product>){
+    private fun setRvProduct(data : List<Product>){
         productAdapter = ProductAdapter(data,object : ProductAdapter.OnClickProduct{
-            override fun showBottomNav(data : coding.faizal.ecommerce.core.domain.model.remote.product.Product) {
+            override fun showBottomNav(data : Product) {
                 bottomSheet(data._id)
             }
 
-            override fun productDetail(data : coding.faizal.ecommerce.core.domain.model.remote.product.Product){
+            override fun productDetail(data : Product){
                 startActivity(Intent(requireActivity(), DetailProduct::class.java).also{
                     it.putExtra(HomeFragment.HOME_DATA,data._id)
                 })
@@ -106,24 +100,20 @@ class CategoryFragmentJacket: Fragment() {
             view.apply {
                 setContentView(root)
                 textFavorite.setOnClickListener {
-                    authPreferencesViewModel.getToken().observe(requireActivity()){
-                        if(it != null){
-                            productViewModel.addWishlist("Bearer $it",id)
-                        }
-                    }
+                    productViewModel.addWishlist(id)
 
                     lifecycleScope.launch {
                         productViewModel.addWishlistResult.collect{ resource ->
                             when (resource) {
-                                is coding.faizal.ecommerce.core.data.Resource.Loading -> {
+                                is Resource.Loading -> {
                                     Toast.makeText(requireActivity(), "Loading ...", Toast.LENGTH_SHORT).show()
                                 }
-                                is coding.faizal.ecommerce.core.data.Resource.Success -> {
+                                is Resource.Success -> {
                                     productAdapter.notifyDataSetChanged()
                                     Toast.makeText(requireActivity(), "Product successfully added from favorite", Toast.LENGTH_SHORT).show()
 
                                 }
-                                is coding.faizal.ecommerce.core.data.Resource.Error -> {
+                                is Resource.Error -> {
                                     val errorMessage = resource.message
                                     Toast.makeText(requireActivity(), "$errorMessage", Toast.LENGTH_SHORT).show()
                                 }

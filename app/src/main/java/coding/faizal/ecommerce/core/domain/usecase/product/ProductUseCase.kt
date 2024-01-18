@@ -10,19 +10,19 @@ import kotlinx.coroutines.flow.Flow
 
 interface ProductUseCase {
 
-    fun getAllSizeProduct(token : String) : Flow<List<ProductSize>>
+    fun getAllSizeProduct() : Flow<List<ProductSize>>
 
-    fun getAllProduct(token : String) : Flow<Resource<List<Product>>>
+    fun getAllProduct() : Flow<Resource<List<Product>>>
 
-    fun getProductById(token : String,id : String) : Flow<Resource<Product>>
+    fun getProductById(id : String) : Flow<Resource<Product>>
 
-    fun getAllWishlist(token : String) : Flow<Resource<ListWishlist>>
+    fun getAllWishlist() : Flow<Resource<ListWishlist>>
 
-    fun addWishlist(token : String,id : String) : Flow<Resource<ListWishlist>>
+    fun addWishlist(id : String) : Flow<Resource<ListWishlist>>
 
-    fun deleteWishlist(token : String,id : String) : Flow<Resource<ListWishlist>>
+    fun deleteWishlist(id : String) : Flow<Resource<ListWishlist>>
 
-    fun orderProduct(token : String, product : String,variant : String, quantity : Int,price : String) : Flow<Resource<ProductOrder>>
+    fun orderProduct( product : String,variant : String, quantity : Int,price : String) : Flow<Resource<ProductOrder>>
 
-    fun paymentProduct(token :String,orderId : String) : Flow<Resource<Payment>>
+    fun paymentProduct(orderId : String) : Flow<Resource<Payment>>
 }

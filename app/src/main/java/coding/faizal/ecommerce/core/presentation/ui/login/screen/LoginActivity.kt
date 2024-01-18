@@ -31,7 +31,6 @@ class LoginActivity : AppCompatActivity() {
 
     private var _binding : ActivityLoginBinding? = null
     private val binding get() = _binding!!
-    private val authPreferencesViewModel by viewModels<AuthPreferencesViewModel>()
 
     private val authenticationViewModel by viewModels<AuthenticationViewModel>()
 
@@ -109,7 +108,7 @@ class LoginActivity : AppCompatActivity() {
                             binding.loadingPanel.visibility = View.GONE
                             Toast.makeText(this@LoginActivity, resource.message, Toast.LENGTH_SHORT).show()
                             navigateToHome(this@LoginActivity)
-                            authPreferencesViewModel.setIsLogin()
+//                            authPreferencesViewModel.setIsLogin()
                             finish()
                         }
                         is coding.faizal.ecommerce.core.data.Resource.Error -> {

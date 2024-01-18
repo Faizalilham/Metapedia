@@ -33,7 +33,6 @@ interface ApiAuthService {
 
     @POST("user/register")
     suspend fun doRegister(
-        @Header("Authorization") token : String,
         @Body registerRequestAfterVerification: RegisterRequestAfterVerification,
     ) : SingleResponse<ResponseDataUser<RegisterResponseAfterVerification>>
 
@@ -50,20 +49,17 @@ interface ApiAuthService {
     suspend fun createNewPassword(@Body newPasswordRequest: NewPasswordRequest) : SingleResponse<ResponseDataUser<NewPasswordResponse>>
 
     @GET("user/profile")
-    suspend fun getCurrentUser(@Header("Authorization") token : String,) : SingleResponse<ProfileUserResponse>
+    suspend fun getCurrentUser() : SingleResponse<ProfileUserResponse>
 
     @PUT("user/profile/edit")
-    suspend fun updateProfileUsername(
-        @Header("Authorization") token : String,@Body editProfileRequest: EditProfileRequest
+    suspend fun updateProfileUsername(@Body editProfileRequest: EditProfileRequest
     ) : SingleResponse<Any>
 
     @PUT("user/profile/edit")
-    suspend fun updateProfileAddress(
-        @Header("Authorization") token : String,@Body addresses : AddressRequest
+    suspend fun updateProfileAddress(@Body addresses : AddressRequest
     ) : SingleResponse<Any>
 
     @POST("user/password/reset")
-    suspend fun resetPassword(
-        @Header("Authorization") token : String,@Body resetPasswordRequest: ResetPasswordRequest
+    suspend fun resetPassword(@Body resetPasswordRequest: ResetPasswordRequest
     ) : SingleResponse<ResponseDataUser<ResetPasswordResponse>>
 }

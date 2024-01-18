@@ -24,8 +24,8 @@ import kotlinx.coroutines.launch
 class ProfileActivity : AppCompatActivity() {
     private var _binding : ActivityProfileBinding? = null
     private val binding get() = _binding!!
-
-    private val authPreferencesViewModel by viewModels<AuthPreferencesViewModel>()
+//
+//    private val authPreferencesViewModel by viewModels<AuthPreferencesViewModel>()
     private val userViewModel by viewModels<UserViewModel>()
     private var i : ProfileUser? = null
 
@@ -36,20 +36,20 @@ class ProfileActivity : AppCompatActivity() {
         getIntentDataUser()
         logout()
         navigation()
-        getProfileUser()
+//        getProfileUser()
 
     }
 
-    private fun getProfileUser() {
-        authPreferencesViewModel.getToken().observe(this) {
-            if (it != null) {
-                userViewModel.getCurrentUser("Bearer $it")
-                Log.d("TOKEN",it)
-
-                setProfileUser()
-            }
-        }
-    }
+//    private fun getProfileUser() {
+//        authPreferencesViewModel.getToken().observe(this) {
+//            if (it != null) {
+//                userViewModel.getCurrentUser("Bearer $it")
+//                Log.d("TOKEN",it)
+//
+//                setProfileUser()
+//            }
+//        }
+//    }
 
     private fun getIntentDataUser(){
         i = intent.getParcelableExtra<ProfileUser>(MenuActivity.MENU)
@@ -66,7 +66,7 @@ class ProfileActivity : AppCompatActivity() {
     private fun logout(){
         binding.linearLogout.setOnClickListener {
             showDialogLogout(this){
-                authPreferencesViewModel.deleteIsLogin()
+//                authPreferencesViewModel.deleteIsLogin()
                 navigateToPraLogin(this)
                 finish()
             }

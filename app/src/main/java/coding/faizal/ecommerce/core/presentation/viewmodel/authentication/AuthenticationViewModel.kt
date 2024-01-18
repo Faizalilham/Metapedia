@@ -9,7 +9,7 @@ import coding.faizal.ecommerce.core.data.Resource
 import coding.faizal.ecommerce.di.authentification.ProvideAuthenticationRepositoryImpl
 import coding.faizal.ecommerce.core.domain.model.remote.authentication.login.User
 import coding.faizal.ecommerce.core.domain.model.remote.authentication.register.Register
-import coding.faizal.ecommerce.domain.usecase.authentication.AuthenticationUseCase
+import coding.faizal.ecommerce.core.domain.usecase.authentication.AuthenticationUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -44,44 +44,40 @@ class AuthenticationViewModel @Inject constructor(
         passwordInput.value = password
     }
 
-    private val _praRegisterResult = MutableStateFlow<coding.faizal.ecommerce.core.data.Resource<coding.faizal.ecommerce.core.domain.model.remote.authentication.register.Register>>(
-        coding.faizal.ecommerce.core.data.Resource.Loading())
-    val praRegisterResult: StateFlow<coding.faizal.ecommerce.core.data.Resource<coding.faizal.ecommerce.core.domain.model.remote.authentication.register.Register>> get() = _praRegisterResult
+    private val _praRegisterResult = MutableStateFlow<Resource<Register>>(Resource.Loading())
+    val praRegisterResult: StateFlow<Resource<Register>> get() = _praRegisterResult
 
-    private val _registerResult = MutableStateFlow<coding.faizal.ecommerce.core.data.Resource<coding.faizal.ecommerce.core.domain.model.remote.authentication.login.User>>(
-        coding.faizal.ecommerce.core.data.Resource.Loading())
-    val registerResult: StateFlow<coding.faizal.ecommerce.core.data.Resource<coding.faizal.ecommerce.core.domain.model.remote.authentication.login.User>> get() = _registerResult
+    private val _registerResult = MutableStateFlow<Resource<User>>(Resource.Loading())
+    val registerResult: StateFlow<Resource<User>> get() = _registerResult
 
-    private val _loginResult = MutableStateFlow<coding.faizal.ecommerce.core.data.Resource<coding.faizal.ecommerce.core.domain.model.remote.authentication.login.User>>(
-        coding.faizal.ecommerce.core.data.Resource.Loading())
-    val loginResult: StateFlow<coding.faizal.ecommerce.core.data.Resource<coding.faizal.ecommerce.core.domain.model.remote.authentication.login.User>> get() = _loginResult
+    private val _loginResult = MutableStateFlow<Resource<User>>(Resource.Loading())
+    val loginResult: StateFlow<Resource<User>> get() = _loginResult
 
-    private  val _praLoginResult = MutableStateFlow<coding.faizal.ecommerce.core.data.Resource<Any>>(
-        coding.faizal.ecommerce.core.data.Resource.Loading())
-    val praLoginResult : StateFlow<coding.faizal.ecommerce.core.data.Resource<Any>> = _praLoginResult
+    private  val _praLoginResult = MutableStateFlow<Resource<Any>>(Resource.Loading())
+    val praLoginResult : StateFlow<Resource<Any>> = _praLoginResult
 
 
 
     fun praRegister(email: String) {
         viewModelScope.launch {
             try {
-                _praRegisterResult.value = coding.faizal.ecommerce.core.data.Resource.Loading()
+                _praRegisterResult.value = Resource.Loading()
                 val result = authenticationUseCase.praRegister(email).asLiveData().asFlow().first()
                 _praRegisterResult.value = result
             } catch (e: Exception) {
-                _praRegisterResult.value = coding.faizal.ecommerce.core.data.Resource.Error(message = e.message)
+                _praRegisterResult.value = Resource.Error(message = e.message)
             }
         }
     }
 
-    fun doRegister(token : String, email: String,name : String,password: String) {
+    fun doRegister(email: String,name : String,password: String) {
         viewModelScope.launch {
             try {
-                _registerResult.value = coding.faizal.ecommerce.core.data.Resource.Loading()
-                val result = authenticationUseCase.doRegister("Bearer $token",email,name,password).asLiveData().asFlow().first()
+                _registerResult.value = Resource.Loading()
+                val result = authenticationUseCase.doRegister(email,name,password).asLiveData().asFlow().first()
                 _registerResult.value = result
             } catch (e: Exception) {
-                _registerResult.value = coding.faizal.ecommerce.core.data.Resource.Error(message = e.message)
+                _registerResult.value = Resource.Error(message = e.message)
             }
         }
     }
@@ -89,11 +85,11 @@ class AuthenticationViewModel @Inject constructor(
     fun praLogin(email: String) {
         viewModelScope.launch {
             try {
-                _praLoginResult.value = coding.faizal.ecommerce.core.data.Resource.Loading()
+                _praLoginResult.value = Resource.Loading()
                 val result = authenticationUseCase.praLogin(email).asLiveData().asFlow().first()
                 _praLoginResult.value = result
             } catch (e: Exception) {
-                _praLoginResult.value = coding.faizal.ecommerce.core.data.Resource.Error(message = e.message)
+                _praLoginResult.value = Resource.Error(message = e.message)
             }
         }
     }
@@ -101,11 +97,11 @@ class AuthenticationViewModel @Inject constructor(
     fun doLogin(email: String,password: String) {
         viewModelScope.launch {
             try {
-                _loginResult.value = coding.faizal.ecommerce.core.data.Resource.Loading()
+                _loginResult.value = Resource.Loading()
                 val result = authenticationUseCase.doLogin(email,password).asLiveData().asFlow().first()
                 _loginResult.value = result
             } catch (e: Exception) {
-                _loginResult.value = coding.faizal.ecommerce.core.data.Resource.Error(message = e.message)
+                _loginResult.value = Resource.Error(message = e.message)
             }
         }
     }

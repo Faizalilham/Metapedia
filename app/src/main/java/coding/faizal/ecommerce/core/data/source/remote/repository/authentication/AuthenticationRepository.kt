@@ -89,10 +89,10 @@ class AuthenticationRepository @Inject constructor(private val apiAuthService: A
         }
     }.flowOn(Dispatchers.IO)
 
-    override fun doRegister(token : String,email: String, name: String, password: String): Flow<Resource<User>>  = flow {
+    override fun doRegister(email: String, name: String, password: String): Flow<Resource<User>>  = flow {
         val errorHandling = ErrorHandling<User>(this)
         try {
-            val response = apiAuthService.doRegister(token,
+            val response = apiAuthService.doRegister(
                 RegisterRequestAfterVerification(email,name,password)
             )
 

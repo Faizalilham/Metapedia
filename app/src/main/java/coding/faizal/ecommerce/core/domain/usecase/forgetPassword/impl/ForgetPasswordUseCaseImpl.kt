@@ -16,5 +16,5 @@ private val IForgetPasswordRepository : IForgetPasswordRepository
 
     override fun createNewPassword(otp: String, password: String): Flow<Resource<NewPassword>> = IForgetPasswordRepository.createNewPassword(otp,password)
 
-    override fun resetPassword(token: String, newPassword: String): Flow<Resource<ResetPassword>> = IForgetPasswordRepository.resetPassword(token,newPassword)
+    override fun resetPassword(newPassword: String): Flow<Resource<ResetPassword>> = IForgetPasswordRepository.resetPassword(newPassword)
 }

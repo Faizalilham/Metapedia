@@ -2,8 +2,8 @@ package coding.faizal.ecommerce.core.presentation.ui.category.screen
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import coding.faizal.ecommerce.core.presentation.ui.category.adapter.ViewPagerAdapter
 import coding.faizal.ecommerce.databinding.ActivityCategoryBinding
-import coding.faizal.ecommerce.presentation.ui.category.adapter.ViewPagerAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 

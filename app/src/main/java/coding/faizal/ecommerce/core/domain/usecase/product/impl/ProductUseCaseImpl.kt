@@ -4,7 +4,9 @@ package coding.faizal.ecommerce.core.domain.usecase.product.impl
 import coding.faizal.ecommerce.core.data.Resource
 import coding.faizal.ecommerce.core.domain.model.local.product.ProductSize
 import coding.faizal.ecommerce.core.domain.model.remote.product.ListWishlist
+import coding.faizal.ecommerce.core.domain.model.remote.product.Payment
 import coding.faizal.ecommerce.core.domain.model.remote.product.Product
+import coding.faizal.ecommerce.core.domain.model.remote.product.ProductOrder
 import coding.faizal.ecommerce.core.domain.repository.product.IProductRepository
 import coding.faizal.ecommerce.core.domain.usecase.product.ProductUseCase
 import kotlinx.coroutines.flow.Flow
@@ -12,28 +14,27 @@ import javax.inject.Inject
 
 class ProductUseCaseImpl @Inject constructor(private val IProductRepository : IProductRepository) :
     ProductUseCase {
-    override fun getAllSizeProduct(token : String): Flow<List<ProductSize>> = IProductRepository.getAllSizeProduct(token)
+    override fun getAllSizeProduct(): Flow<List<ProductSize>> = IProductRepository.getAllSizeProduct()
 
-    override fun getAllProduct(token: String): Flow<Resource<List<Product>>> = IProductRepository.getAllProduct(token)
+    override fun getAllProduct(): Flow<Resource<List<Product>>> = IProductRepository.getAllProduct()
 
-    override fun getProductById(token: String, id: String): Flow<Resource<Product>> = IProductRepository.getProductById(token,id)
+    override fun getProductById(id: String): Flow<Resource<Product>> = IProductRepository.getProductById(id)
 
-    override fun getAllWishlist(token: String): Flow<Resource<ListWishlist>> = IProductRepository.getAllWishlist(token)
+    override fun getAllWishlist(): Flow<Resource<ListWishlist>> = IProductRepository.getAllWishlist()
 
-    override fun addWishlist(token: String, id: String): Flow<Resource<ListWishlist>> = IProductRepository.addWishlist(token,id)
+    override fun addWishlist(id: String): Flow<Resource<ListWishlist>> = IProductRepository.addWishlist(id)
 
-    override fun deleteWishlist(token: String, id: String): Flow<Resource<ListWishlist>> = IProductRepository.deleteWishlist(token,id)
+    override fun deleteWishlist(id: String): Flow<Resource<ListWishlist>> = IProductRepository.deleteWishlist(id)
     override fun orderProduct(
-        token: String,
         product: String,
         variant: String,
         quantity: Int,
         price: String
-    ): Flow<coding.faizal.ecommerce.core.data.Resource<coding.faizal.ecommerce.core.domain.model.remote.product.ProductOrder>> {
-        return IProductRepository.orderProduct(token, product, variant, quantity, price)
+    ): Flow<Resource<ProductOrder>> {
+        return IProductRepository.orderProduct(product, variant, quantity, price)
     }
 
-    override fun paymentProduct(token: String, orderId: String): Flow<coding.faizal.ecommerce.core.data.Resource<coding.faizal.ecommerce.core.domain.model.remote.product.Payment>> {
-        return IProductRepository.paymentProduct(token, orderId)
+    override fun paymentProduct(orderId: String): Flow<Resource<Payment>> {
+        return IProductRepository.paymentProduct(orderId)
     }
 }

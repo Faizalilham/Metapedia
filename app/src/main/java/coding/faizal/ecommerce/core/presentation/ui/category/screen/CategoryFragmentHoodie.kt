@@ -14,11 +14,10 @@ import coding.faizal.ecommerce.core.data.Resource
 import coding.faizal.ecommerce.databinding.FavoriteBottomSheetBinding
 import coding.faizal.ecommerce.databinding.FragmentCategoryWomanBinding
 import coding.faizal.ecommerce.core.domain.model.remote.product.Product
-import coding.faizal.ecommerce.presentation.viewmodel.authentication.AuthPreferencesViewModel
-import coding.faizal.ecommerce.presentation.ui.detailproduct.screen.DetailProduct
-import coding.faizal.ecommerce.presentation.ui.home.adapter.ProductAdapter
-import coding.faizal.ecommerce.presentation.ui.home.screen.HomeFragment
-import coding.faizal.ecommerce.presentation.viewmodel.product.ProductViewModel
+import coding.faizal.ecommerce.core.presentation.ui.detailproduct.screen.DetailProduct
+import coding.faizal.ecommerce.core.presentation.ui.home.adapter.ProductAdapter
+import coding.faizal.ecommerce.core.presentation.ui.home.screen.HomeFragment
+import coding.faizal.ecommerce.core.presentation.viewmodel.product.ProductViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -31,7 +30,6 @@ class CategoryFragmentHoodie : Fragment() {
     private val binding  get() = _binding!!
 
     private val productViewModel by viewModels<ProductViewModel>()
-    private val authPreferencesViewModel by viewModels<AuthPreferencesViewModel>()
     private lateinit var productAdapter : ProductAdapter
 
     override fun onCreateView(
@@ -48,94 +46,100 @@ class CategoryFragmentHoodie : Fragment() {
         getAllProduct("")
     }
 
-    private fun getAllProduct(i : String){
-        authPreferencesViewModel.getToken().observe(this){
-            if(it != null){
-                productViewModel.getAllProduct("Bearer $it")
-            }
-        }
+    private fun getAllProduct(i: String) {
+        productViewModel.getAllProduct()
 
         lifecycleScope.launch {
-            productViewModel.listProductResult.collect{ resource ->
-                when (resource) {
-                    is coding.faizal.ecommerce.core.data.Resource.Loading -> {
-                        setRvProduct(listOf())
-                    }
-                    is coding.faizal.ecommerce.core.data.Resource.Success -> {
-                        val result = resource.data
-                        if(result != null){
-                            val finalResult = result.filter { it.name.contains("hoodie",ignoreCase = false) && it.name.contains(i,ignoreCase = false) }
-                            setRvProduct(finalResult)
-                        }
-                    }
-                    is coding.faizal.ecommerce.core.data.Resource.Error -> {
+            productViewModel.listProductResult.collect { resource ->
+                processResource(resource, i)
+            }
+        }
+    }
 
-                        val errorMessage = resource.message
-                        Toast.makeText(requireActivity(), "$errorMessage", Toast.LENGTH_SHORT).show()
-                    }
+
+    private fun List<Product>.filterProductsByKeywordAndName(name: String): List<Product> {
+        return filter { it.name.contains("hoodie", ignoreCase = false) && it.name.contains(name, ignoreCase = false) }
+    }
+
+    private fun processResource(resource: Resource<List<Product>>, keyword: String) {
+        when (resource) {
+            is Resource.Loading -> {
+                setRvProduct(listOf())
+            }
+            is Resource.Success -> {
+                val result = resource.data
+                if (result != null) {
+                    val finalResult = result.filterProductsByKeywordAndName(keyword)
+                    setRvProduct(finalResult)
                 }
             }
+            is Resource.Error -> {
+                val errorMessage = resource.message
+                Toast.makeText(requireActivity(), "$errorMessage", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
-
-    private fun setRvProduct(data : List<coding.faizal.ecommerce.core.domain.model.remote.product.Product>){
-        productAdapter = ProductAdapter(data,object : ProductAdapter.OnClickProduct{
-            override fun showBottomNav(data : coding.faizal.ecommerce.core.domain.model.remote.product.Product) {
-                bottomSheet(data._id)
+    private fun createProductAdapter(data: List<Product>): ProductAdapter {
+        return ProductAdapter(data, object : ProductAdapter.OnClickProduct {
+            override fun showBottomNav(data: Product) {
+                showBottomSheet(data._id)
             }
 
-            override fun productDetail(data : coding.faizal.ecommerce.core.domain.model.remote.product.Product){
-                startActivity(Intent(requireActivity(), DetailProduct::class.java).also{
-                    it.putExtra(HomeFragment.HOME_DATA,data._id)
+            override fun productDetail(data: Product) {
+                startActivity(Intent(requireActivity(), DetailProduct::class.java).also {
+                    it.putExtra(HomeFragment.HOME_DATA, data._id)
                 })
             }
-
         })
+    }
 
+    private fun setRvProduct(data: List<Product>) {
+        productAdapter = createProductAdapter(data)
         binding.rvProduct.apply {
             adapter = productAdapter
-            layoutManager = GridLayoutManager(requireActivity(),2)
+            layoutManager = GridLayoutManager(requireActivity(), 2)
         }
     }
 
-    private fun bottomSheet(id : String){
+
+    private fun showBottomSheet(id: String) {
         val bottomSheet = BottomSheetDialog(requireActivity())
         val view = FavoriteBottomSheetBinding.inflate(layoutInflater)
+
         bottomSheet.apply {
             view.apply {
                 setContentView(root)
                 textFavorite.setOnClickListener {
-                    authPreferencesViewModel.getToken().observe(requireActivity()){
-                        if(it != null){
-                            productViewModel.addWishlist("Bearer $it",id)
-                        }
-                    }
+                    productViewModel.addWishlist(id)
 
                     lifecycleScope.launch {
-                        productViewModel.addWishlistResult.collect{ resource ->
-                            when (resource) {
-                                is coding.faizal.ecommerce.core.data.Resource.Loading -> {
-                                    Toast.makeText(requireActivity(), "Loading ...", Toast.LENGTH_SHORT).show()
-                                }
-                                is coding.faizal.ecommerce.core.data.Resource.Success -> {
-                                    productAdapter.notifyDataSetChanged()
-                                    Toast.makeText(requireActivity(), "Product successfully added from favorite", Toast.LENGTH_SHORT).show()
-
-                                }
-                                is coding.faizal.ecommerce.core.data.Resource.Error -> {
-                                    val errorMessage = resource.message
-                                    Toast.makeText(requireActivity(), "$errorMessage", Toast.LENGTH_SHORT).show()
-                                }
-                            }
+                        productViewModel.addWishlistResult.collect { resource ->
+                            handleWishlistResult(resource)
                         }
                     }
                 }
                 show()
-
             }
         }
     }
+
+    private fun handleWishlistResult(resource: Resource<*>) {
+        when (resource) {
+            is Resource.Loading -> {
+                Toast.makeText(requireActivity(), "Loading ...", Toast.LENGTH_SHORT).show()
+            }
+            is Resource.Success -> {
+                productAdapter.notifyDataSetChanged()
+                Toast.makeText(requireActivity(), "Product successfully added from favorite", Toast.LENGTH_SHORT).show()
+            }
+            is Resource.Error -> {
+                val errorMessage = resource.message
+                Toast.makeText(requireActivity(), "$errorMessage", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
 
     override fun onDestroy() {
         super.onDestroy()

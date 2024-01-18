@@ -12,10 +12,9 @@ import coding.faizal.ecommerce.core.data.Resource
 import coding.faizal.ecommerce.databinding.ActivityAddressBinding
 import coding.faizal.ecommerce.core.domain.model.local.address.LabelAddress
 import coding.faizal.ecommerce.core.domain.model.remote.profileuser.UserAddress
-import coding.faizal.ecommerce.presentation.viewmodel.authentication.AuthPreferencesViewModel
-import coding.faizal.ecommerce.presentation.ui.addaddress.screen.AddAddressActivity
-import coding.faizal.ecommerce.presentation.ui.address.adapter.AddressAdapter
-import coding.faizal.ecommerce.presentation.viewmodel.user.UserViewModel
+import coding.faizal.ecommerce.core.presentation.ui.addaddress.screen.AddAddressActivity
+import coding.faizal.ecommerce.core.presentation.ui.address.adapter.AddressAdapter
+import coding.faizal.ecommerce.core.presentation.viewmodel.user.UserViewModel
 import coding.faizal.ecommerce.utils.NavigationUtils.navigateToAddAddress
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -25,7 +24,7 @@ class AddressActivity : AppCompatActivity() {
     private var _binding : ActivityAddressBinding? = null
     private val binding get() = _binding!!
 
-    private val authPreferencesViewModel by viewModels<AuthPreferencesViewModel>()
+
     private val userViewModel by viewModels<UserViewModel>()
     private lateinit var addressAdapter : AddressAdapter
 
@@ -46,18 +45,14 @@ class AddressActivity : AppCompatActivity() {
     }
 
     private fun getAddress() {
-        authPreferencesViewModel.getToken().observe(this) {
-            if (it != null) {
-                userViewModel.getCurrentUser("Bearer $it")
-            }
-        }
+        userViewModel.getCurrentUser()
         lifecycleScope.launch {
             userViewModel.profileResult.collect{ resource ->
                 when (resource) {
-                    is coding.faizal.ecommerce.core.data.Resource.Loading -> {
+                    is Resource.Loading -> {
 
                     }
-                    is coding.faizal.ecommerce.core.data.Resource.Success -> {
+                    is Resource.Success -> {
                         if (resource.data != null && resource.data.addresses.isNotEmpty()) {
                             setupRecycler(resource.data.addresses)
                             binding.listAddressEmpty.visibility = View.GONE
@@ -66,7 +61,7 @@ class AddressActivity : AppCompatActivity() {
                         }
 
                     }
-                    is coding.faizal.ecommerce.core.data.Resource.Error -> {
+                    is Resource.Error -> {
                         val errorMessage = resource.message
                         Toast.makeText(this@AddressActivity, "$errorMessage", Toast.LENGTH_SHORT).show()
 
@@ -76,10 +71,10 @@ class AddressActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupRecycler(data : List<coding.faizal.ecommerce.core.domain.model.remote.profileuser.UserAddress>){
+    private fun setupRecycler(data : List<UserAddress>){
 
-        val labelAddressList: List<coding.faizal.ecommerce.core.domain.model.local.address.LabelAddress> = data.mapIndexed { index, userAddress ->
-            coding.faizal.ecommerce.core.domain.model.local.address.LabelAddress(
+        val labelAddressList: List<LabelAddress> = data.mapIndexed { index, userAddress ->
+            LabelAddress(
                 id = index + 1,
                 name = userAddress.street,
                 isSelected = false
@@ -87,11 +82,11 @@ class AddressActivity : AppCompatActivity() {
         }
 
         addressAdapter = AddressAdapter(this,labelAddressList,object : AddressAdapter.AddressOnClick{
-            override fun labelAddress(labelAddress: coding.faizal.ecommerce.core.domain.model.local.address.LabelAddress, position: Int) {
+            override fun labelAddress(labelAddress: LabelAddress, position: Int) {
                 addressAdapter.setSelected(position)
             }
 
-            override fun moveToAdd(labelAddress: coding.faizal.ecommerce.core.domain.model.local.address.LabelAddress) {
+            override fun moveToAdd(labelAddress: LabelAddress) {
                 startActivity(Intent(this@AddressActivity, AddAddressActivity::class.java).also{
                     it.putExtra(ADDRESS_DATA,labelAddress)
                 })

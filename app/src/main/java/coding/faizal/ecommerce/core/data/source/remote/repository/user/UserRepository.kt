@@ -24,10 +24,10 @@ import javax.inject.Singleton
 @Singleton
 class UserRepository @Inject constructor(private val apiAuthService: ApiAuthService) :
     IUserRepository {
-    override fun getCurrentUser(token: String): Flow<Resource<ProfileUser>>  = flow {
+    override fun getCurrentUser(): Flow<Resource<ProfileUser>>  = flow {
         val errorHandling = ErrorHandling<ProfileUser>(this)
         try {
-            val response = apiAuthService.getCurrentUser(token)
+            val response = apiAuthService.getCurrentUser()
             if (response.success) {
                 val profileResult = response.data
                 emit(Resource.Success(mapFromProfileUserResponseToEntities(profileResult),response.message))
@@ -39,10 +39,10 @@ class UserRepository @Inject constructor(private val apiAuthService: ApiAuthServ
         }
     }.flowOn(Dispatchers.IO)
 
-    override fun updateUsername(token: String,username : String): Flow<Resource<Any>> = flow {
+    override fun updateUsername(username : String): Flow<Resource<Any>> = flow {
         val errorHandling = ErrorHandling<Any>(this)
         try {
-            val response = apiAuthService.updateProfileUsername(token, EditProfileRequest(username))
+            val response = apiAuthService.updateProfileUsername(EditProfileRequest(username))
             if (response.success) {
                 val profileResult = response.data
                 emit(Resource.Success(profileResult,response.message))
@@ -54,10 +54,10 @@ class UserRepository @Inject constructor(private val apiAuthService: ApiAuthServ
         }
     }.flowOn(Dispatchers.IO)
 
-    override fun updateAddress(token: String,address : List<UserAddress>): Flow<Resource<Any>> = flow {
+    override fun updateAddress(address : List<UserAddress>): Flow<Resource<Any>> = flow {
         val errorHandling = ErrorHandling<Any>(this)
         try {
-            val response = apiAuthService.updateProfileAddress(token, AddressRequest(address))
+            val response = apiAuthService.updateProfileAddress(AddressRequest(address))
             if (response.success) {
                 val profileResult = response.data
                 emit(Resource.Success(profileResult,response.message))
@@ -69,10 +69,10 @@ class UserRepository @Inject constructor(private val apiAuthService: ApiAuthServ
         }
     }.flowOn(Dispatchers.IO)
 
-    override fun getListAddress(token: String): Flow<Resource<List<UserAddress>>> = flow{
+    override fun getListAddress(): Flow<Resource<List<UserAddress>>> = flow{
         val errorHandling = ErrorHandling<List<UserAddress>>(this)
         try {
-            val response = apiAuthService.getCurrentUser(token)
+            val response = apiAuthService.getCurrentUser()
             if (response.success) {
                 val profileResult = response.data.addresses
                 emit(Resource.Success(profileResult,response.message))

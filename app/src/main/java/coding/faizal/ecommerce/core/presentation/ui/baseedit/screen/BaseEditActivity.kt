@@ -9,11 +9,10 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import coding.faizal.ecommerce.R
 import coding.faizal.ecommerce.core.data.Resource
+import coding.faizal.ecommerce.core.presentation.ui.editprofile.screen.EditProfileActivity
+import coding.faizal.ecommerce.core.presentation.viewmodel.forgetpassword.ForgetPasswordViewModel
+import coding.faizal.ecommerce.core.presentation.viewmodel.user.UserViewModel
 import coding.faizal.ecommerce.databinding.ActivityBaseEditBinding
-import coding.faizal.ecommerce.presentation.viewmodel.authentication.AuthPreferencesViewModel
-import coding.faizal.ecommerce.presentation.viewmodel.user.UserViewModel
-import coding.faizal.ecommerce.presentation.ui.editprofile.screen.EditProfileActivity
-import coding.faizal.ecommerce.presentation.viewmodel.forgetpassword.ForgetPasswordViewModel
 import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -28,7 +27,6 @@ class BaseEditActivity : AppCompatActivity() {
 
     private val userViewModel by viewModels<UserViewModel>()
     private val forgetPasswordViewModel by viewModels<ForgetPasswordViewModel>()
-    private val authPreferencesViewModel by viewModels<AuthPreferencesViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,11 +69,7 @@ class BaseEditActivity : AppCompatActivity() {
             if (username.length < 8) {
                 showErrorState(binding.etInputUsername, "Username minimal 8 karakter")
             } else {
-                authPreferencesViewModel.getToken().observe(this) {
-                    if (it != null) {
-                        userViewModel.updateUsername("Bearer $it", username)
-                    }
-                }
+                userViewModel.updateUsername(username)
                 changeUsernameResult()
             }
         }
@@ -91,11 +85,7 @@ class BaseEditActivity : AppCompatActivity() {
                     showErrorState(binding.etInputPassword, "Password tidak cocok")
                     showErrorState(binding.etInputRepeatPassword, "Password tidak cocok")
                 } else {
-                    authPreferencesViewModel.getToken().observe(this) {
-                        if (it != null) {
-                            userViewModel.updateUsername("Bearer $it", password)
-                        }
-                    }
+                    userViewModel.updateUsername(password)
                     resetPasswordResult()
                 }
             } else {
@@ -121,17 +111,17 @@ class BaseEditActivity : AppCompatActivity() {
         }
     }
 
-    private fun handleResourceResult(resource: coding.faizal.ecommerce.core.data.Resource<*>, message : String) {
+    private fun handleResourceResult(resource: Resource<*>, message : String) {
         when (resource) {
-            is coding.faizal.ecommerce.core.data.Resource.Loading -> {
+            is Resource.Loading -> {
                 binding.loadingPanel.visibility = View.VISIBLE
             }
-            is coding.faizal.ecommerce.core.data.Resource.Success -> {
+            is Resource.Success -> {
                 binding.loadingPanel.visibility = View.GONE
                 Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
                 finish()
             }
-            is coding.faizal.ecommerce.core.data.Resource.Error -> {
+            is Resource.Error -> {
                 binding.loadingPanel.visibility = View.GONE
                 val errorMessage = resource.message
                 Toast.makeText(this@BaseEditActivity, "$errorMessage", Toast.LENGTH_SHORT).show()
